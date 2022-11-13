@@ -1,8 +1,8 @@
 # Личный проект «Readme»
 
-* Студент: [Сергей Софронов](https://up.htmlacademy.ru/nodejs-2/2/user/1876915).
-* Наставник: `Неизвестно`.
-
+* Студент: [Сергей Софронов](https://htmlacademy.ru/profile/id1876915).
+* Наставник: [Сергей Вохмянин](https://up.htmlacademy.ru/profession/fullstack/1/nodejs-api/1/tutors).
+* Проект: ["Readme. Простой движок для блога" (Nest)](https://github.com/SergeySofronov/1876915-readme-2).
 ---
 
 _Не удаляйте и не изменяйте папки и файлы:_
