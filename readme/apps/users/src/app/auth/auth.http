@@ -1,0 +1,30 @@
+# Создать (зарегистрировать) пользователя
+POST /users/auth/register HTTP/1.1
+Host: localhost:3333
+Content-Type: application/json
+
+{
+  "email": "alisa@selezneva.ru",
+  "dateBirth": "1965-11-17",
+  "firstName": "Алиса",
+  "lastName": "Селезнева",
+  "password": "12345"
+}
+###
+
+# Получить детальную информацию пользователя по ID
+GET /users/auth/be57e445-82c7-42c9-b862-603f3d296462 HTTP/1.1
+Host: localhost:3333
+###
+
+# Авторизоваться (получить токен)
+POST /users/auth/login HTTP/1.1
+Host: localhost:3333
+Content-Type: application/json
+
+{
+  "email": "alisa@selezneva.ru",
+  "password": "12345"
+}
+
+###

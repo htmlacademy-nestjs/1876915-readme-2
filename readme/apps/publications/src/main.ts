@@ -7,18 +7,18 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
-    .setTitle('Users')
-    .setDescription('Users service API')
+    .setTitle('Publications')
+    .setDescription('Publications service API')
     .setVersion('1.0')
     .build();
 
-  const globalPrefix = 'users';
+  const globalPrefix = 'publications';
   app.setGlobalPrefix(globalPrefix);
 
   const document = SwaggerModule.createDocument(app, config, { ignoreGlobalPrefix: false });
   SwaggerModule.setup('api', app, document);
 
-  const port = process.env.PORT || 3333;
+  const port = process.env.PORT || 3334;
   await app.listen(port);
 
   Logger.log(
