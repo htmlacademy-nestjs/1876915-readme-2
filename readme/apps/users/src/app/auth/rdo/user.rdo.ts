@@ -1,35 +1,39 @@
 import { Expose } from 'class-transformer';
-import { UserEntityFilter } from '@readme/shared-types'
-
-const detailed = UserEntityFilter.Detailed,
-  logged = UserEntityFilter.Logged,
-  registered = UserEntityFilter.Registered;
+import { ApiProperty } from '@nestjs/swagger';
 
 export class UserRdo {
+  @ApiProperty({
+    description: 'User unique identifier',
+    example: '62af63e1dd748f35bcf66943',
+  })
   @Expose({ name: '_id' })
   public id: string;
 
+  @ApiProperty({
+    description: 'User unique email address',
+    example: 'user@user.ru',
+  })
   @Expose()
   public email: string;
 
-  @Expose({ groups: [registered, detailed] })
+  @ApiProperty({
+    description: 'User first name',
+    example: 'John',
+  })
+  @Expose()
   public firstName: string;
 
-  @Expose({ groups: [registered, detailed] })
+  @ApiProperty({
+    description: 'User last name',
+    example: 'Doe',
+  })
+  @Expose()
   public lastName: string;
 
-  @Expose({ groups: [registered, detailed] })
+  @ApiProperty({
+    description: 'User avatar path',
+    example: '/img/avatar.jpg',
+  })
+  @Expose()
   public avatar: string;
-
-  @Expose({ groups: [registered] })
-  public createdAt: string;
-
-  @Expose({ groups: [detailed] })
-  public publicationCount: string;
-
-  @Expose({ groups: [detailed] })
-  public subscribersCount: string;
-
-  @Expose({ groups: [logged] })
-  public token: string;
 }

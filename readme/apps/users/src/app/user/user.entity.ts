@@ -11,6 +11,8 @@ export class UserEntity implements User {
   public firstName: string;
   public lastName: string;
   public password: string;
+  public createdAt: Date;
+  public updatedAt: Date;
 
   constructor(user: User) {
     this.fillEntity(user);
@@ -37,5 +39,7 @@ export class UserEntity implements User {
     this.firstName = user.firstName;
     this.lastName = user.lastName;
     this.password = user.password;
+    this.createdAt = user.createdAt;
+    this.updatedAt = user.updatedAt;
   }
 }

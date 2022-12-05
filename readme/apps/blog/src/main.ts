@@ -7,12 +7,12 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
-    .setTitle('Publications')
-    .setDescription('Publications service API')
+    .setTitle('Blog «Readme»')
+    .setDescription('Blog «Readme» service API')
     .setVersion('1.0')
     .build();
 
-  const globalPrefix = 'publications';
+  const globalPrefix = 'blog';
   app.setGlobalPrefix(globalPrefix);
 
   const document = SwaggerModule.createDocument(app, config, { ignoreGlobalPrefix: false });
