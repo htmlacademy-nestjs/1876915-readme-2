@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'publications',
+  displayName: 'blog',
   preset: '../../jest.preset.js',
   globals: {
     'ts-jest': {
@@ -12,5 +12,5 @@ export default {
     '^.+\\.[tj]s$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/apps/publications',
+  coverageDirectory: '../../coverage/apps/blog',
 };

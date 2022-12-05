@@ -1,8 +1,9 @@
+import * as dayjs from 'dayjs';
 import { Injectable } from '@nestjs/common';
 import { UserMemoryRepository } from '../user/user-memory.repository';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserEntity } from '../user/user.entity';
-import { UserAuthError } from './auth.constant';
+import { UserAuthMessages } from './auth.constant';
 import { LoginUserDto } from './dto/login-user.dto';
 
 @Injectable()
@@ -13,19 +14,22 @@ export class AuthService {
 
   async register(dto: CreateUserDto) {
     const { email, firstName, lastName, password } = dto;
+    const date = dayjs().toDate();
     const user = {
       _id: '',
       email,
       firstName,
       lastName,
       avatar: '',
-      password: ''
+      password: '',
+      createdAt: date,
+      updatedAt: date,
     };
 
     const existUser = await this.userRepository.findByEmail(email);
 
     if (existUser) {
-      throw new Error(UserAuthError.ALREADY_EXISTS);
+      throw new Error(UserAuthMessages.ALREADY_EXISTS);
     }
 
     const userEntity = await new UserEntity(user)
@@ -39,12 +43,12 @@ export class AuthService {
     const existUser = await this.userRepository.findByEmail(email);
 
     if (!existUser) {
-      throw new Error(UserAuthError.NOT_FOUND);
+      throw new Error(UserAuthMessages.NOT_FOUND);
     }
 
     const userEntity = new UserEntity(existUser);
     if (! await userEntity.comparePassword(password)) {
-      throw new Error(UserAuthError.WRONG_PASSWORD);
+      throw new Error(UserAuthMessages.WRONG_PASSWORD);
     }
 
     return userEntity.toObject();

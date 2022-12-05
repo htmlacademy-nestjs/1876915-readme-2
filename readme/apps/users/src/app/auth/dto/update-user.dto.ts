@@ -1,31 +1,24 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CreateUserDto {
+export class UpdateUserDto {
   @ApiProperty({
     description: 'User unique email address',
     example: 'user@user.ru',
-    required: true,
+    required: false,
   })
-  public email: string;
+  public email?: string;
 
   @ApiProperty({
     description: 'User first name',
     example: 'John',
-    required: true,
+    required: false,
   })
-  public firstName: string;
+  public firstName?: string;
 
   @ApiProperty({
     description: 'User last name',
     example: 'Doe',
-    required: true,
+    required: false,
   })
-  public lastName: string;
-
-  @ApiProperty({
-    description: 'User password',
-    example: '12345',
-    required: true,
-  })
-  public password: string;
+  public lastName?: string;
 }
