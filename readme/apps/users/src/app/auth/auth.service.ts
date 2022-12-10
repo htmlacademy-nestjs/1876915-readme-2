@@ -1,22 +1,21 @@
 import * as dayjs from 'dayjs';
 import { Injectable } from '@nestjs/common';
-import { UserMemoryRepository } from '../user/user-memory.repository';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserEntity } from '../user/user.entity';
 import { UserAuthMessages } from './auth.constant';
+import { UserRepository } from '../user/user.repository';
 import { LoginUserDto } from './dto/login-user.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly userRepository: UserMemoryRepository
+    private readonly userRepository: UserRepository,
   ) { }
 
   async register(dto: CreateUserDto) {
     const { email, firstName, lastName, password } = dto;
     const date = dayjs().toDate();
     const user = {
-      _id: '',
       email,
       firstName,
       lastName,
