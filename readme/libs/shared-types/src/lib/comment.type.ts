@@ -1,7 +1,8 @@
 export type Comment = {
-  id: number;
+  id?: number;
   content: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
   userId: string;
+  publicationId: number;
 }

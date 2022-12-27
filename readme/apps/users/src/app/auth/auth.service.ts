@@ -1,4 +1,3 @@
-import * as dayjs from 'dayjs';
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserEntity } from '../user/user.entity';
@@ -13,26 +12,14 @@ export class AuthService {
   ) { }
 
   async register(dto: CreateUserDto) {
-    const { email, firstName, lastName, password } = dto;
-    const date = dayjs().toDate();
-    const user = {
-      email,
-      firstName,
-      lastName,
-      avatar: '',
-      password: '',
-      createdAt: date,
-      updatedAt: date,
-    };
-
+    const { email, password } = dto;
     const existUser = await this.userRepository.findByEmail(email);
 
     if (existUser) {
       throw new Error(UserAuthMessages.ALREADY_EXISTS);
     }
 
-    const userEntity = await new UserEntity(user)
-      .setPassword(password)
+    const userEntity = await new UserEntity(dto).setPassword(password);
 
     return this.userRepository.create(userEntity);
   }

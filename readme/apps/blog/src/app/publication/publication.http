@@ -1,0 +1,62 @@
+# Создать публикацию
+POST blog/publications/ HTTP/1.1
+Host: localhost:3334
+Content-Type: application/json
+{
+
+}
+###
+
+# Редактировать публикацию
+PATCH blog/publications/1 HTTP/1.1
+Host: localhost:3334
+Content-Type: application/json
+###
+
+# Получить список публикаций (лимит, пагинация, сортировка)
+GET blog/publications/ HTTP/1.1
+Host: localhost:3334
+Content-Type: application/json
+###
+
+# Получить список публикаций определнного пользователя (лимит, пагинация, сортировка)
+GET blog/publications/user/63a9bb63c0068095cdd7706a HTTP/1.1
+Host: localhost:3334
+Content-Type: application/json
+###
+
+# Получить список публикаций по тэгу (лимит, пагинация, сортировка)
+GET blog/publications/tag/text HTTP/1.1
+Host: localhost:3334
+Content-Type: application/json
+###
+
+# Получить ленту публикаций (лимит, пагинация, сортировка)
+GET blog/publications/feed HTTP/1.1
+Host: localhost:3334
+Content-Type: application/json
+###
+
+# Удалить публикацию
+DELETE blog/publications/1 HTTP/1.1
+Host: localhost:3334
+Content-Type: application/json
+###
+
+# Поставить лайк публикации
+PATCH blog/publications/like/1 HTTP/1.1
+Host: localhost:3334
+Content-Type: application/json
+###
+
+# Удалить лайк публикации
+PATCH blog/publications/like/0 HTTP/1.1
+Host: localhost:3334
+Content-Type: application/json
+###
+
+# Сделать репост (копировать) публикации
+POST blog/publications/repost/1 HTTP/1.1
+Host: localhost:3334
+Content-Type: application/json
+###

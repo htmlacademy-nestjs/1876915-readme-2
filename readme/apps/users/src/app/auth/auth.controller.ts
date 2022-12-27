@@ -4,9 +4,9 @@ import { fillObject } from '@readme/core';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserRdo } from './rdo/user.rdo';
+import { DetailedUserRdo } from './rdo/detailed-user.rdo';
 import { LoginUserDto } from './dto/login-user.dto';
 import { UserAuthMessages } from './auth.constant';
-import { DetailedUserRdo } from './rdo/detailed-user.rdo';
 import { LoggedUserRdo } from './rdo/logged-user.rdo';
 
 @ApiTags('auth')
@@ -53,14 +53,13 @@ export class AuthController {
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   @ApiResponse({
-    type: UserRdo,
+    type: DetailedUserRdo,
     status: HttpStatus.NOT_FOUND,
     description: UserAuthMessages.NOT_FOUND,
   })
   async showDetails(@Param('id') id: string) {
     const existUser = await this.authService.getUser(id);
-
-    return fillObject(UserRdo, existUser);
+    return fillObject(DetailedUserRdo, existUser);
   }
 
   @Patch()

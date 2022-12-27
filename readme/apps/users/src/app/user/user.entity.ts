@@ -2,9 +2,10 @@ import { Injectable } from '@nestjs/common'
 import { genSalt, hash, compare } from 'bcrypt';
 import { SALT_ROUNDS } from './user.constant';
 import { User } from '@readme/shared-types'
+import { Entity } from '@readme/core';
 
 @Injectable()
-export class UserEntity implements User {
+export class UserEntity implements Entity<UserEntity, User>, User {
   public _id: string;
   public avatar: string;
   public email: string;
@@ -39,7 +40,7 @@ export class UserEntity implements User {
     this.firstName = user.firstName;
     this.lastName = user.lastName;
     this.password = user.password;
-    this.createdAt = user.createdAt;
-    this.updatedAt = user.updatedAt;
+    this.createdAt = new Date();
+    this.updatedAt = new Date();
   }
 }

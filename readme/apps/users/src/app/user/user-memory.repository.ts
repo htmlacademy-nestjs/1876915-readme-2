@@ -1,5 +1,4 @@
 import * as crypto from 'crypto';
-import * as dayjs from 'dayjs';
 import { Injectable } from '@nestjs/common';
 import { CRUDRepositoryInterface } from '@readme/core'
 import { User } from '@readme/shared-types';
@@ -28,7 +27,7 @@ export class UserMemoryRepository implements CRUDRepositoryInterface<UserEntity,
   }
 
   public async create(item: UserEntity): Promise<User> {
-    const date = dayjs().toDate();
+    const date = new Date();
     const entry = { ...item.toObject(), _id: crypto.randomUUID(), createdAt: date, updatedAt: date };
     this.repository[entry._id] = entry;
 

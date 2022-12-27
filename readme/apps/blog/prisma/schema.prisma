@@ -1,0 +1,88 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// P.S.:
+// 1. Клиент (сlient prisma) предназначен для доступа и проведения всех операций в базе данных,
+// по аналогии с model в mongoDB.
+// 2. При изменении схем базы необходимо заново сгенерировать client prisma, иначе клиент не будет соответствовать действительности.
+// Для генерации клиента предусмотрена самописная команда db-generate в project.json приложения blog (nx run blog:db-migrate).
+// 3. В поле output необходимо указать путь к папке node_modules, т.к. в проекте используется монорепозиторий,
+// в противном случае client будет сгенерирован в новой папке node_modules в директории blog.
+// Однако, при использовани одного пакета prisma для нескольких микро-сервисов придется создавать несколько директорий
+// node_modules.
+// 4. В project.json предусмотрены команды автомитизирующие работу с prisma при разработке:
+// - db-validate (валидация схемы schema.prisma)
+// - db-migrate (применение всех миграций)
+// - db-reset (очищает всю базу данных)
+// - db-generate (конфигурирует prisma client)
+// - db-fill (заполнение базы данными из файла seed.ts, специально для этого создан файл package.json)
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum PublicationType {
+  Video
+  Text
+  Quote
+  Photo
+  Link
+}
+
+model Publication {
+  id              Int             @id @default(autoincrement())
+  originalId      Int             @unique
+  original        Publication?    @relation("PublicationOwnerHistory", fields: [originalId], references: [id])
+  current         Publication?    @relation("PublicationOwnerHistory")
+  type            PublicationType
+  isPublished     Boolean         @default(true)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @default(now())
+  likesCount      Int             @default(0)
+  commentsCount   Int             @default(0)
+  isRepublication Boolean         @default(false)
+  content         Json
+  userId          String
+  originalUserId  String
+  like            Like[]
+  comment         Comment[]
+  tag             Tag[]
+
+  @@map("publications")
+}
+
+model Tag {
+  name        String        @id
+  publication Publication[]
+
+  @@map("tags")
+}
+
+model Like {
+  userId        String
+  publication   Publication @relation(fields: [publicationId], references: [id], onDelete: Cascade)
+  publicationId Int
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @default(now())
+
+  @@id([userId, publicationId])
+  @@map("likes")
+}
+
+model Comment {
+  id            Int         @id @default(autoincrement())
+  publication   Publication @relation(fields: [publicationId], references: [id], onDelete: Cascade)
+  publicationId Int
+  userId        String
+  content       String
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @default(now())
+
+  @@map("comments")
+}
