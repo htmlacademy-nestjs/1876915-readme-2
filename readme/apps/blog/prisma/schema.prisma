@@ -50,9 +50,9 @@ model Publication {
   content         Json
   userId          String
   originalUserId  String
-  like            Like[]
-  comment         Comment[]
-  tag             Tag[]
+  likes           Like[]
+  comments        Comment[]
+  tags            Tag[]
 
   @@map("publications")
 }

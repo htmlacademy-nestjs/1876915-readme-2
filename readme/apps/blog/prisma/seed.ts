@@ -15,7 +15,7 @@ async function fillDb() {
         link: 'wwww.someVideoLink.com',
         linkDescription: 'This is a non-existent link to a non-existent video',
       },
-      comment: {
+      comments: {
         create: [
           {
             userId: 'userId#1',
@@ -27,7 +27,7 @@ async function fillDb() {
           }
         ]
       },
-      tag: {
+      tags: {
         create: [
           {
             name: 'someTag#1',
@@ -52,7 +52,7 @@ async function fillDb() {
         announcement: 'This is an announcement for Text publication',
         text: 'This is the content for Text publication',
       },
-      comment: {
+      comments: {
         create: [
           {
             userId: 'userId#1',
@@ -64,7 +64,7 @@ async function fillDb() {
           }
         ]
       },
-      tag: {
+      tags: {
         create: [
           {
             name: 'someTag#3',
@@ -88,7 +88,7 @@ async function fillDb() {
         quote: 'This is the content for Quote publication',
         quoteAuthor: 'John Doe',
       },
-      comment: {
+      comments: {
         create: [
           {
             userId: 'userId#3',
@@ -100,7 +100,7 @@ async function fillDb() {
           }
         ]
       },
-      tag: {
+      tags: {
         create: [
           {
             name: 'someTag#5',

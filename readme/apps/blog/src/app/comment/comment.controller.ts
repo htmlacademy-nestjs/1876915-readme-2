@@ -16,27 +16,20 @@ export class CommentController {
   @Post('/')
   @HttpCode(HttpStatus.CREATED)
   @ApiResponse({
-    type: CreateCommentDto,
+    type: () => CreateCommentDto,
     status: HttpStatus.CREATED,
     description: CommentHandleMessages.CREATED,
   })
   async create(@Body() dto: CreateCommentDto) {
-    const newCategory = await this.commentService.createComment({ ...dto });
-    return fillObject(CommentRto, newCategory);
+    const newComment = await this.commentService.createComment({ ...dto });
+    return fillObject(CommentRto, newComment);
   }
 
   @Patch('/:id')
   async update(@Param('id') id: string, @Body() dto: UpdateCommentDto) {
     const commentId = parseInt(id, 10);
-    const updatedCategory = await this.commentService.updateComment(commentId, dto)
-    return fillObject(CommentRto, updatedCategory);
-  }
-
-  @Get('/:id')
-  async show(@Param('id') id: string) {
-    const commentId = parseInt(id, 10);
-    const existComment = await this.commentService.getComment(commentId);
-    return fillObject(CommentRto, existComment);
+    const updatedComment = await this.commentService.updateComment(commentId, dto)
+    return fillObject(CommentRto, updatedComment);
   }
 
   @Get('/:id')
@@ -49,7 +42,6 @@ export class CommentController {
   @Delete('/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiResponse({
-    type: CreateCommentDto,
     status: HttpStatus.NO_CONTENT,
     description: CommentHandleMessages.DELETED,
   })

@@ -22,17 +22,17 @@ export class PublicationEntity implements Entity<PublicationEntity, Publication>
 
   public fillEntity(entity: Publication): void {
     this.id = entity.id;
-    this.originalId = entity.originalId;
+    this.originalId = entity.originalId || entity.id;
     this.type = entity.type;
-    this.isPublished = true;
+    this.isPublished = entity.isPublished || true;
     this.createdAt = new Date();
     this.updatedAt = new Date();
     this.likesCount = 0;
     this.commentsCount = 0;
-    this.tags = [];
+    this.tags = entity.tags || [];
     this.content = entity.content;
     this.isRepublication = false;
-    this.originalUserId = entity.originalUserId;
+    this.originalUserId = entity.originalUserId || entity.userId;
     this.userId = entity.userId;
   }
 

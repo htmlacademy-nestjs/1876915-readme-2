@@ -13,6 +13,7 @@ export class CommentService {
 
   async createComment(dto: CreateCommentDto): Promise<Comment> {
     const commentEntity = new CommentEntity(dto);
+    //todo: а если таких публикаций нет?
     return this.commentRepository.create(commentEntity);
   }
 

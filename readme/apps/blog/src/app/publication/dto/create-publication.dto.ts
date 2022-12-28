@@ -1,24 +1,42 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { PublicationContent, PublicationType } from '@readme/shared-types';
 
 export class CreatePublicationDto {
-  // @ApiProperty({
-  //   description: 'User unique identifier',
-  //   example: '62af63e1dd748f35bcf66943',
-  //   required: true,
-  // })
-  // public userId: string;
+  @ApiProperty({
+    description: 'Type of publication',
+    example: 'video',
+    required: true,
+    type: () => String,
+    enum: PublicationType,
+  })
+  public type: PublicationType;
 
-  // @ApiProperty({
-  //   description: 'The content of the comment to the publication.',
-  //   example: 'It turns out that comments on a topic or problem are a separate genre. Somehow I did not pay much attention to it before.',
-  //   required: true,
-  // })
-  // public content: string;
+  @ApiProperty({
+    description: 'The field indicates the publication status: published (true by default) or draft (false)',
+    example: 'true',
+    required: true,
+  })
+  public isPublished?: boolean;
 
-  // @ApiProperty({
-  //   description: 'Publication unique identifier',
-  //   example: '1',
-  //   required: true,
-  // })
-  // public publicationId: number;
+  @ApiProperty({
+    description: 'Tags for publications',
+    example: '[books, cooking]',
+    required: true,
+  })
+  public tags: string[];
+
+  @ApiProperty({
+    description: 'The content of the publication. Depends on the type of publication',
+    example: '{}',
+    required: true,
+    //todo: как добавить пример типов объектов (т.е. контента)?
+  })
+  public content: PublicationContent;
+
+  @ApiProperty({
+    description: 'User unique identifier',
+    example: '62af63e1dd748f35bcf66943',
+    required: true,
+  })
+  public userId: string;
 }

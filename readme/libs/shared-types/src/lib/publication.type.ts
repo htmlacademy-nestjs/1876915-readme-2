@@ -17,7 +17,7 @@ type QuotePublication = {
 }
 
 type PhotoPublication = {
-  file?: Blob;
+  url: string;
 }
 
 type LinkPublication = {
@@ -35,16 +35,16 @@ export type PublicationContent = (
 
 export type Publication = {
   id?: number;
-  originalId: number;
+  originalId?: number;
   type: PublicationType;
-  isPublished: boolean;
+  isPublished?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
-  likesCount: number;
-  commentsCount: number;
-  tags: string[];
+  likesCount?: number;
+  commentsCount?: number;
+  tags?: string[];
   content: PublicationContent;
-  isRepublication: boolean;
-  originalUserId: string;
+  isRepublication?: boolean;
+  originalUserId?: string;
   userId: string;
 }
