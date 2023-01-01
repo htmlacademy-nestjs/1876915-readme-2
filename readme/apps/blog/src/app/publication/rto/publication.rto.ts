@@ -1,6 +1,6 @@
 import { Expose } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
-import { PublicationContent, PublicationType } from '@readme/shared-types';
+import { PublicationContent, PublicationType, Tag } from '@readme/shared-types';
 
 export class PublicationRto {
   @ApiProperty({
@@ -50,7 +50,8 @@ export class PublicationRto {
     example: '[books, cooking]',
     required: true,
   })
-  public tags: string[];
+  @Expose()
+  public tags: Tag[];
 
   @ApiProperty({
     description: 'The content of the publication. Depends on the type of publication',

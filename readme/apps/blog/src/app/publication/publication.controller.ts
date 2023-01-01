@@ -1,4 +1,4 @@
-import { Body, Post, Controller, Delete, Param, Get, Patch, HttpCode, HttpStatus } from '@nestjs/common';
+import { Body, Post, Controller, Delete, Param, Get, Patch, HttpCode, HttpStatus, Logger } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { fillObject } from '@readme/core';
 import { PublicationService } from './publication.service';
@@ -11,7 +11,8 @@ import { DetailedPublicationRto } from './rto/detailed-publication.rto';
 @Controller('publications')
 export class PublicationController {
   constructor(
-    private readonly publicationService: PublicationService
+    private readonly publicationService: PublicationService,
+    private readonly logger: Logger,
   ) { }
 
   @Post('/')
@@ -23,6 +24,7 @@ export class PublicationController {
   })
   async create(@Body() dto: CreatePublicationDto) {
     const newPublication = await this.publicationService.createPublication({ ...dto });
+    this.logger.log(`New publication created: ${newPublication}`);
     return fillObject(PublicationRto, newPublication);
   }
 

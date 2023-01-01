@@ -1,4 +1,4 @@
-import { PublicationType } from "./publication-type.enum";
+import { Prisma } from '@prisma/client'
 
 type VideoPublication = {
   title?: string;
@@ -31,7 +31,21 @@ export type PublicationContent = (
   | QuotePublication
   | PhotoPublication
   | LinkPublication
+  | Prisma.JsonValue
 );
+export const PublicationTypeObject = {
+  Video: 'Video',
+  Text: 'Text',
+  Quote: 'Quote',
+  Photo: 'Photo',
+  Link: 'Link',
+} as const;
+
+export type PublicationType = keyof typeof PublicationTypeObject;
+
+export type Tag = {
+  name: string;
+}
 
 export type Publication = {
   id?: number;
@@ -42,7 +56,7 @@ export type Publication = {
   updatedAt?: Date;
   likesCount?: number;
   commentsCount?: number;
-  tags?: string[];
+  tags?: Tag[];
   content: PublicationContent;
   isRepublication?: boolean;
   originalUserId?: string;

@@ -35,7 +35,7 @@ Content-Type: application/json
 ###
 
 # Получить детальную информацию пользователя по ID
-GET /users/auth/63a9bb63c0068095cdd7706c HTTP/1.1
+GET /users/auth/63a9bb63c0068095cdd7706a HTTP/1.1
 Host: localhost:3333
 ###
 

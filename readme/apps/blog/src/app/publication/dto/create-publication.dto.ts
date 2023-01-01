@@ -1,5 +1,5 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { PublicationContent, PublicationType } from '@readme/shared-types';
+import { ApiProperty, } from '@nestjs/swagger';
+import { PublicationContent, PublicationType, PublicationTypeObject, Tag } from '@readme/shared-types';
 
 export class CreatePublicationDto {
   @ApiProperty({
@@ -7,7 +7,7 @@ export class CreatePublicationDto {
     example: 'video',
     required: true,
     type: () => String,
-    enum: PublicationType,
+    enum: PublicationTypeObject,
   })
   public type: PublicationType;
 
@@ -23,7 +23,7 @@ export class CreatePublicationDto {
     example: '[books, cooking]',
     required: true,
   })
-  public tags: string[];
+  public tags: Tag[];
 
   @ApiProperty({
     description: 'The content of the publication. Depends on the type of publication',

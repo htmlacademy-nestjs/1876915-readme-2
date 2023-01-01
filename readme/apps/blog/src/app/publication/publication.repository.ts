@@ -8,43 +8,28 @@ import { PublicationEntity } from './publication.entity';
 export class PublicationRepository implements CRUDRepositoryInterface<PublicationEntity, number, Publication> {
   constructor(private readonly prisma: PrismaService) { }
 
-  // public some(item: PublicationEntity): Publication {
-  //   const entityData = item.toObject();
-  //   const newPublication = this.prisma.publication.create({
-  //     data: {
-  //       ...entityData,
-  //       comments: {
-  //         connect: []
-  //       },
-  //     },
-  //     include: {
-  //       tags: true,
-  //       comments: true,
-
-  //     }
-  //   });
-
-  //   return newPublication;
-  // }
-
   public async create(item: PublicationEntity): Promise<Publication> {
-    return Promise.resolve(undefined);
-    // const entityData = item.toObject();
-    // return this.prisma.publication.create({
-    //   data: {
-    //     ...entityData,
-    //     tag: {
-    //       connect: [{name:}]
-    //     },
-    //     comments: {
-    //       connect: []
-    //     }
-    //   },
-    //   include: {
-    //     comments: true,
-    //     tag: true,
-    //   }
-    // });
+    const entityData = item.toObject();
+    return this.prisma.publication.create({
+      data: {
+        ...entityData,
+        tags: {
+          connectOrCreate: [
+            ...entityData.tags.map(({ name }) => ({
+              create: { name },
+              where: { name }
+            }))
+          ],
+        },
+        comments: {
+          connect: []
+        }
+      },
+      include: {
+        tags: true,
+        comments: true,
+      }
+    });
   }
 
   public async destroy(id: number): Promise<void> {
@@ -63,19 +48,19 @@ export class PublicationRepository implements CRUDRepositoryInterface<Publicatio
     //   },
     //   include: {
     //     comments: true,
-    //     categories: true,
+    //     likes: true,
+    //     tags: true,
     //   }
     // });
   }
 
-  public find(): Promise<Publication[]> {
-    return Promise.resolve(undefined);
-    // return this.prisma.publication.findMany({
-    //   include: {
-    //     comments: true,
-    //     categories: true
-    //   }
-    // });
+  public async find(): Promise<Publication[]> {
+    return this.prisma.publication.findMany({
+      include: {
+        comments: true,
+        tags: true
+      }
+    });
   }
 
   public update(id: number, item: PublicationEntity): Promise<Publication> {

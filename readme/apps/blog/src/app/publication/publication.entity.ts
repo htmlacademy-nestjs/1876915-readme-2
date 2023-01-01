@@ -1,4 +1,4 @@
-import { Publication, PublicationContent, PublicationType } from '@readme/shared-types';
+import { Publication, PublicationContent, PublicationType, Tag } from '@readme/shared-types';
 import { Entity } from '@readme/core';
 
 export class PublicationEntity implements Entity<PublicationEntity, Publication>, Publication {
@@ -10,7 +10,7 @@ export class PublicationEntity implements Entity<PublicationEntity, Publication>
   public updatedAt?: Date;
   public likesCount: number;
   public commentsCount: number;
-  public tags: string[];
+  public tags: Tag[];
   public content: PublicationContent;
   public isRepublication: boolean;
   public originalUserId: string;

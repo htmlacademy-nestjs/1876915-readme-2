@@ -37,9 +37,7 @@ enum PublicationType {
 
 model Publication {
   id              Int             @id @default(autoincrement())
-  originalId      Int             @unique
-  original        Publication?    @relation("PublicationOwnerHistory", fields: [originalId], references: [id])
-  current         Publication?    @relation("PublicationOwnerHistory")
+  originalId      Int             @default(autoincrement())
   type            PublicationType
   isPublished     Boolean         @default(true)
   createdAt       DateTime        @default(now())
