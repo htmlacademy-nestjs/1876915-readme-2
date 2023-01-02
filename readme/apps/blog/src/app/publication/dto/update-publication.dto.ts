@@ -1,4 +1,3 @@
-//todo: тип публикации обязательно должен быть
 import { OmitType, PartialType } from '@nestjs/swagger';
 import { CreatePublicationDto } from './create-publication.dto';
 

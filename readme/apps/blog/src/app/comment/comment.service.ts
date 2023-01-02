@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Comment } from '@readme/shared-types';
+import { PublicationRepository } from '../publication/publication.repository';
 import { CommentEntity } from './comment.entity';
 import { CommentRepository } from './comment.repository';
 import { CreateCommentDto } from './dto/create-comment.dto';
@@ -9,11 +10,15 @@ import { UpdateCommentDto } from './dto/update-comment.dto';
 export class CommentService {
   constructor(
     private readonly commentRepository: CommentRepository,
+    private readonly publicationRepository: PublicationRepository,
   ) { }
 
   async createComment(dto: CreateCommentDto): Promise<Comment> {
+    const existPublication = await this.publicationRepository.findById(dto.publicationId);
+    if (!existPublication) {
+      throw new Error(`Publication with id ${dto.publicationId} doesn't exist`);
+    }
     const commentEntity = new CommentEntity(dto);
-    //todo: а если таких публикаций нет?
     return this.commentRepository.create(commentEntity);
   }
 

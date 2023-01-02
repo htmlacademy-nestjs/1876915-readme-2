@@ -29,7 +29,9 @@ export class PublicationService {
   }
 
   async updatePublication(id: number, dto: UpdatePublicationDto): Promise<Publication> {
-    throw new Error('Not implemented…');
+    const existPublication = await this.getPublication(id);
+
+    return this.publicationRepository.update(id, {...existPublication, ...dto, updatedAt: new Date()});
   }
 
 }

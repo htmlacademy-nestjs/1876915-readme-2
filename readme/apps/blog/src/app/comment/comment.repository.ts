@@ -9,7 +9,8 @@ export class CommentRepository implements CRUDRepositoryInterface<CommentEntity,
   constructor(private readonly prisma: PrismaService) { }
 
   public async create(item: CommentEntity): Promise<Comment> {
-    const {content, publicationId, userId} = item.toObject();
+    const { content, publicationId, userId } = item.toObject();
+
     return this.prisma.comment.create({
       data: {
         content,
@@ -40,7 +41,7 @@ export class CommentRepository implements CRUDRepositoryInterface<CommentEntity,
   public find(id: number): Promise<Comment[]> {
     return this.prisma.comment.findMany({
       where: {
-        publicationId:id
+        publicationId: id
       }
     });
   }

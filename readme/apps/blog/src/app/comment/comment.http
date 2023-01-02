@@ -7,12 +7,12 @@ Content-Type: application/json
 {
   "content": "Это короткий комментарий",
   "userId": "63a9bb63c0068095cdd7706a",
-  "publicationId": "1"
+  "publicationId": 1
 }
 ###
 
 # Редактировать комментарий (/:id комментария)
-PATCH /blog/comments/1 HTTP/1.1
+PATCH /blog/comments/8 HTTP/1.1
 Host: localhost:3334
 # Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InZhbnlhM0BydXNzaWFuLnJ1IiwidXNlcklkIjoiNjJiOWY3YjI3MGY0OTZjNjczODIyNzJjIiwibmFtZSI6IlZhbnlhIFJ1c3NpYW4iLCJhdmF0YXIiOiJSTjhkOTh1NVBDbU1CZGlTREdfcGIuanBlZyIsImlhdCI6MTY1NjgzNTYxMSwiZXhwIjoxNjU2ODc4ODExfQ.YHAwjl1xwaPXpAI2dTGAw2pX3sKnEUsWyVPdUlJsTAE
 Content-Type: application/json
@@ -29,7 +29,7 @@ Host: localhost:3334
 ###
 
 # Удалить комментарий (/:id комментария)
-DELETE  /blog/comments/1 HTTP/1.1
+DELETE  /blog/comments/8 HTTP/1.1
 Host: localhost:3334
 # Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InZhbnlhM0BydXNzaWFuLnJ1IiwidXNlcklkIjoiNjJiOWY3YjI3MGY0OTZjNjczODIyNzJjIiwibmFtZSI6IlZhbnlhIFJ1c3NpYW4iLCJhdmF0YXIiOiJSTjhkOTh1NVBDbU1CZGlTREdfcGIuanBlZyIsImlhdCI6MTY1NjgzNTYxMSwiZXhwIjoxNjU2ODc4ODExfQ.YHAwjl1xwaPXpAI2dTGAw2pX3sKnEUsWyVPdUlJsTAE
 ###

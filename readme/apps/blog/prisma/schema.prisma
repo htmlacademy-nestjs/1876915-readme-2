@@ -37,7 +37,7 @@ enum PublicationType {
 
 model Publication {
   id              Int             @id @default(autoincrement())
-  originalId      Int             @default(autoincrement())
+  originalId      Int             @default(0)
   type            PublicationType
   isPublished     Boolean         @default(true)
   createdAt       DateTime        @default(now())

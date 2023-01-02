@@ -7,6 +7,6 @@ import { PublicationService } from './publication.service';
   imports: [],
   controllers: [PublicationController],
   providers: [PublicationService, PublicationRepository, Logger],
-  exports: [],
+  exports: [PublicationRepository],
 })
 export class PublicationModule { }

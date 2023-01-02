@@ -10,7 +10,7 @@ export class PublicationRepository implements CRUDRepositoryInterface<Publicatio
 
   public async create(item: PublicationEntity): Promise<Publication> {
     const entityData = item.toObject();
-    return this.prisma.publication.create({
+    const newPublication = await this.prisma.publication.create({
       data: {
         ...entityData,
         tags: {
@@ -27,9 +27,15 @@ export class PublicationRepository implements CRUDRepositoryInterface<Publicatio
       },
       include: {
         tags: true,
-        comments: true,
       }
     });
+
+    return this.prisma.publication.update({
+      where: { id: newPublication.id },
+      data: {
+        originalId: newPublication.id
+      }
+    })
   }
 
   public async destroy(id: number): Promise<void> {
@@ -41,32 +47,42 @@ export class PublicationRepository implements CRUDRepositoryInterface<Publicatio
   }
 
   public async findById(id: number): Promise<Publication | null> {
-    return null;
-    // return this.prisma.publication.findFirst({
-    //   where: {
-    //     id
-    //   },
-    //   include: {
-    //     comments: true,
-    //     likes: true,
-    //     tags: true,
-    //   }
-    // });
+    return this.prisma.publication.findFirst({
+      where: {
+        id
+      },
+      include: {
+        tags: true,
+      }
+    });
   }
 
   public async find(): Promise<Publication[]> {
     return this.prisma.publication.findMany({
       include: {
-        comments: true,
-        tags: true
+        tags: true,
       }
     });
   }
 
-  public update(id: number, item: PublicationEntity): Promise<Publication> {
-    return Promise.resolve(undefined);
+  public update(id: number, item: Publication): Promise<Publication> {
+    return this.prisma.publication.update({
+      where: { id },
+      data: {
+        ...item,
+        id,
+        tags: {
+          connectOrCreate: [
+            ...item.tags.map(({ name }) => ({
+              create: { name },
+              where: { name }
+            }))
+          ],
+        },
+      },
+      include: {
+        tags: true,
+      }
+    })
   }
-
-
-
 }
