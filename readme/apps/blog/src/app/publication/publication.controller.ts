@@ -37,8 +37,8 @@ export class PublicationController {
 
   @Get('/:id')
   async show(@Param('id') id: string) {
-    const commentId = parseInt(id, 10);
-    const existComment = await this.publicationService.getPublication(commentId);
+    const publicationId = parseInt(id, 10);
+    const existComment = await this.publicationService.getPublication(publicationId);
     return fillObject(DetailedPublicationRto, existComment);
   }
 

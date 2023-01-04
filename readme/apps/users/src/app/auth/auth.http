@@ -10,6 +10,14 @@ Content-Type: application/json
   "lastName": "Селезнева",
   "password": "12345"
 }
+
+# {
+#   "email": "pasha@geraskin.ru",
+#   "dateBirth": "1965-11-17",
+#   "firstName": "Пашка",
+#   "lastName": "Гераскин",
+#   "password": "12345"
+# }
 ###
 
 # Редактировать пользователя (WIP)

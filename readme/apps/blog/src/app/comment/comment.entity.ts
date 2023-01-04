@@ -23,8 +23,8 @@ export class CommentEntity implements Entity<CommentEntity, Comment>, Comment {
     public fillEntity(comment: Comment) {
         this.id = comment.id;
         this.content = comment.content;
-        this.createdAt = new Date();
-        this.updatedAt = new Date();
+        this.createdAt = comment.createdAt || new Date();
+        this.updatedAt = comment.updatedAt || new Date();
         this.userId = comment.userId;
         this.publicationId = comment.publicationId;
     }

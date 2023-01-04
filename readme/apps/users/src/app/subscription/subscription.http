@@ -1,0 +1,21 @@
+# Подписаться на пользователя
+POST /users/subscriptions/1 HTTP/1.1
+Host: localhost:3333
+Content-Type: application/json
+
+{
+  "bloggerId": "63b9e83c804280c503523c41",
+  "followerId": "63b9dd9a99736fc650231e7a"
+}
+###
+
+# Отписаться от пользователя
+POST /users/subscriptions/0 HTTP/1.1
+Host: localhost:3333
+Content-Type: application/json
+
+{
+  "bloggerId": "63b9e83c804280c503523c41",
+  "followerId": "63b9dd9a99736fc650231e7a"
+}
+###

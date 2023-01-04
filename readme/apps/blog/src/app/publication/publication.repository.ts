@@ -65,18 +65,42 @@ export class PublicationRepository implements CRUDRepositoryInterface<Publicatio
     });
   }
 
-  public update(id: number, item: Publication): Promise<Publication> {
+  public async update(id: number, item: Partial<Publication>): Promise<Publication> {
+    let excludingTags = [];
+    let includingTags = [];
+
+    if (item.tags) {
+      excludingTags = await this.prisma.tag.findMany({
+        where: {
+          NOT: [
+            ...(item.tags || []),
+          ],
+          publication: {
+            some: {
+              id
+            }
+          }
+        }
+      });
+
+      includingTags = item.tags.map(({ name }) => ({
+        create: { name },
+        where: { name }
+      }))
+    }
+
     return this.prisma.publication.update({
       where: { id },
       data: {
         ...item,
-        id,
-        tags: {
+
+        tags:
+        {
+          disconnect: [
+            ...excludingTags
+          ],
           connectOrCreate: [
-            ...item.tags.map(({ name }) => ({
-              create: { name },
-              where: { name }
-            }))
+            ...includingTags
           ],
         },
       },

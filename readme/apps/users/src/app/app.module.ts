@@ -5,12 +5,14 @@ import { ConfigModule } from '@nestjs/config';
 import { ENV_FILE_PATH } from './app.constant';
 import { MongooseModule } from '@nestjs/mongoose/dist';
 import { getMongoDbConfig } from '../config/mongodb.config';
+import { SubscriptionModule } from './subscription/subscription.module';
 import databaseConfig from '../config/database.config';
 import envSchema from './env.schema';
 
 /*
 Примечания.
-1. Применение forRoot/forRootAsync/forFeature/forFeatureAsync - это runtime подключение (import) динамических модулей.
+1. Применение forRoot/forRootAsync/forFeature/forFeatureAsync (в каких-то модулях это могут быть
+  методы типа register)- это runtime подключение (import) динамических модулей.
 2. В объект с настройками ConfigModule в свойстве load указывается массив коллбэков для
 извлечения env-переменных в "пространство имен" (по сути это просто объекты, в данном
 случае с названием "database")
@@ -27,13 +29,12 @@ import envSchema from './env.schema';
       load: [databaseConfig],
       validationSchema: envSchema,
     }),
-    MongooseModule.forRootAsync(
-      getMongoDbConfig()
-    ),
+    MongooseModule.forRootAsync(getMongoDbConfig()),
     UserModule,
-    AuthModule
+    AuthModule,
+    SubscriptionModule,
   ],
   controllers: [],
   providers: [],
 })
-export class AppModule { }
+export class AppModule {}

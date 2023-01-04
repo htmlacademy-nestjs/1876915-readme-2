@@ -25,10 +25,10 @@ export class PublicationEntity implements Entity<PublicationEntity, Publication>
     this.originalId = entity.originalId || entity.id;
     this.type = entity.type;
     this.isPublished = entity.isPublished || true;
-    this.createdAt = new Date();
-    this.updatedAt = new Date();
-    this.likesCount = 0;
-    this.commentsCount = 0;
+    this.createdAt = entity.createdAt || new Date();
+    this.updatedAt = entity.updatedAt || new Date();
+    this.likesCount = entity.likesCount || 0;
+    this.commentsCount = entity.commentsCount || 0;
     this.tags = entity.tags || [];
     this.content = entity.content;
     this.isRepublication = false;

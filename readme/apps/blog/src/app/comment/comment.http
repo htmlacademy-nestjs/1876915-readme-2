@@ -6,7 +6,7 @@ Content-Type: application/json
 
 {
   "content": "Это короткий комментарий",
-  "userId": "63a9bb63c0068095cdd7706a",
+  "userId": "63b550eae01809667f8f668d",
   "publicationId": 1
 }
 ###

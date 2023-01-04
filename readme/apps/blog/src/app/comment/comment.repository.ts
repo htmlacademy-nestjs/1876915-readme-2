@@ -46,12 +46,12 @@ export class CommentRepository implements CRUDRepositoryInterface<CommentEntity,
     });
   }
 
-  public update(id: number, item: CommentEntity): Promise<Comment> {
+  public update(id: number, item: Partial<Comment>): Promise<Comment> {
     return this.prisma.comment.update({
       where: {
         id
       },
-      data: { ...item.toObject(), id }
+      data: { ...item }
     });
   }
 }

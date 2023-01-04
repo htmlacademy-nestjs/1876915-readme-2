@@ -34,7 +34,6 @@ export class AuthController {
   }
 
   @Post('login')
-  @HttpCode(HttpStatus.OK)
   @ApiResponse({
     type: LoggedUserRdo,
     status: HttpStatus.OK,
@@ -51,7 +50,6 @@ export class AuthController {
   }
 
   @Get(':id')
-  @HttpCode(HttpStatus.OK)
   @ApiResponse({
     type: DetailedUserRdo,
     status: HttpStatus.NOT_FOUND,
@@ -63,7 +61,6 @@ export class AuthController {
   }
 
   @Patch()
-  @HttpCode(HttpStatus.OK)
   @ApiResponse({
     type: DetailedUserRdo,
     status: HttpStatus.OK,

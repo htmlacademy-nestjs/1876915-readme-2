@@ -6,7 +6,7 @@ Content-Type: application/json
 {
   "type": "Video",
   "tags": [{ "name": "#awesomevideo"}],
-  "userId": "63a9bb63c0068095cdd7706a",
+  "userId": "63b550eae01809667f8f668d",
   "content": {
     "title": "Гостья из будущего",
     "videoLink": "www.url.com"
@@ -15,9 +15,10 @@ Content-Type: application/json
 ###
 
 # Редактировать публикацию
-PATCH /blog/publications/4 HTTP/1.1
+PATCH /blog/publications/10 HTTP/1.1
 Host: localhost:3334
 Content-Type: application/json
+# [{ "name": "#awesomevideo"}, { "name": "#приключенияалисы"}]
 
 {
   "type": "Video",
@@ -27,6 +28,16 @@ Content-Type: application/json
     "videoLink": "www.url.com"
   }
 }
+###
+
+# Удалить публикацию
+DELETE /blog/publications/4 HTTP/1.1
+Host: localhost:3334
+###
+
+# Получить публикацию по ID
+GET /blog/publications/11 HTTP/1.1
+Host: localhost:3334
 ###
 
 # Получить список публикаций (лимит, пагинация, сортировка)
@@ -54,18 +65,13 @@ GET /blog/publications/feed HTTP/1.1
 Host: localhost:3334
 ###
 
-# Удалить публикацию
-DELETE /blog/publications/8 HTTP/1.1
-Host: localhost:3334
-###
-
 # Поставить лайк публикации
-PATCH /blog/publications/like/1 HTTP/1.1
+POST /blog/publications/like/1 HTTP/1.1
 Host: localhost:3334
 ###
 
 # Удалить лайк публикации
-PATCH /blog/publications/like/0 HTTP/1.1
+POST /blog/publications/like/0 HTTP/1.1
 Host: localhost:3334
 ###
 

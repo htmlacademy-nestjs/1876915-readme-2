@@ -13,7 +13,7 @@ export class CommentService {
     private readonly publicationRepository: PublicationRepository,
   ) { }
 
-  async createComment(dto: CreateCommentDto): Promise<Comment> {
+  public async createComment(dto: CreateCommentDto): Promise<Comment> {
     const existPublication = await this.publicationRepository.findById(dto.publicationId);
     if (!existPublication) {
       throw new Error(`Publication with id ${dto.publicationId} doesn't exist`);
@@ -22,20 +22,19 @@ export class CommentService {
     return this.commentRepository.create(commentEntity);
   }
 
-  async deleteComment(id: number): Promise<void> {
+  public async deleteComment(id: number): Promise<void> {
     this.commentRepository.destroy(id);
   }
 
-  async getComment(id: number): Promise<Comment> {
+  public async getComment(id: number): Promise<Comment> {
     return this.commentRepository.findById(id);
   }
 
-  async getComments(id: number): Promise<Comment[]> {
+  public async getComments(id: number): Promise<Comment[]> {
     return this.commentRepository.find(id);
   }
 
-  async updateComment(id: number, dto: UpdateCommentDto): Promise<Comment> {
-    const { publicationId, userId } = await this.getComment(id);
-    return this.commentRepository.update(id, new CommentEntity({ ...dto, publicationId, userId }));
+  public async updateComment(id: number, dto: UpdateCommentDto): Promise<Comment> {
+    return this.commentRepository.update(id, { ...dto, updatedAt: new Date() });
   }
 }
