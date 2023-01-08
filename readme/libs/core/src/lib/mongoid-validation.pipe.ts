@@ -11,7 +11,7 @@ export class MongoIdValidationPipe implements PipeTransform {
     }
 
     if (!Types.ObjectId.isValid(value)) {
-      throw new BadRequestException(ValidityMessage.mongoIdMessage);
+      throw new BadRequestException(ValidityMessage.MongoIdMessage);
     }
 
     return value;

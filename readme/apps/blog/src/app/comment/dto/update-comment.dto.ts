@@ -9,7 +9,7 @@ export class UpdateCommentDto {
     example: 'It turns out that comments on a topic or problem are a separate genre. Somehow I did not pay much attention to it before.',
     required: true,
   })
-  @MinLength(CV.contentMinLength, { message: VM.minValueMessage })
-  @MaxLength(CV.contentMaxLength, { message: VM.maxValueMessage })
+  @MinLength(CV.ContentMinLength, { message: VM.MinValueMessage })
+  @MaxLength(CV.ContentMaxLength, { message: VM.MaxValueMessage })
   public content: string;
 }

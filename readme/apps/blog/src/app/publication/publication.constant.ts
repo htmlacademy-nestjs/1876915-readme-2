@@ -1,24 +1,34 @@
+export const DEFAULT_PUBLICATION_QUERY_LIMIT = 25;
+export const DEFAULT_SORT_DIRECTION = 'desc';
+
 export const PublicationHandleMessages = {
   CREATED: 'The new publication has been successfully created.',
   DELETED: 'The publication has been successfully deleted.',
 } as const;
 
 export enum PublicationValidity {
-  tagMinLength = 3,
-  tagMaxLength = 10,
-  tagsMaxQuantity = 8,
-  videoTitleMinLength = 20,
-  videoTitleMaxLength = 50,
-  textTitleMinLength = 20,
-  textTitleMaxLength = 50,
-  announcementMinLength = 50,
-  announcementMaxLength = 255,
-  textMinLength = 100,
-  textMaxLength = 1024,
-  quoteMinLength = 20,
-  quoteMaxLength = 300,
-  quoteAuthorMinLength = 3,
-  quoteAuthorMaxLength = 50,
-  photoMaxSize = 1024,
-  linkDescriptionMaxLength = 300,
+  TagMinLength = 3,
+  TagMaxLength = 10,
+  TagsMaxQuantity = 8,
+  VideoTitleMinLength = 20,
+  VideoTitleMaxLength = 50,
+  TextTitleMinLength = 20,
+  TextTitleMaxLength = 50,
+  AnnouncementMinLength = 50,
+  AnnouncementMaxLength = 255,
+  TextMinLength = 100,
+  TextMaxLength = 1024,
+  QuoteMinLength = 20,
+  QuoteMaxLength = 300,
+  QuoteAuthorMinLength = 3,
+  QuoteAuthorMaxLength = 50,
+  PhotoMaxSize = 1024,
+  LinkDescriptionMaxLength = 300,
 }
+
+export enum PublicationSort {
+  Date = 'date',
+  Likes = 'likes',
+  Comments = 'comments',
+}
+

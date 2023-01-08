@@ -1,4 +1,4 @@
-import { Expose } from 'class-transformer';
+import { Expose, Transform } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 import { PublicationContent, PublicationType, Tag } from '@readme/shared-types';
 
@@ -50,6 +50,7 @@ export class PublicationRto {
     example: '[books, cooking]',
     required: true,
   })
+  @Transform(({ value }) => value.map((item: Tag) => item.name))
   @Expose()
   public tags: Tag[];
 

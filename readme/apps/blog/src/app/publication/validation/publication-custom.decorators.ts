@@ -6,31 +6,31 @@ import {
   ValidationArguments,
 } from 'class-validator';
 import { Tag } from '@readme/shared-types';
-import { CreatePublicationDto } from './dto/create-publication.dto';
-import { PublicationValidity } from './publication.constant';
+import { CreatePublicationDto } from '../dto/create-publication.dto';
 
 @ValidatorConstraint({ async: true })
 export class TagMinLengthConstraint implements ValidatorConstraintInterface {
-  validate(value: Tag[], _args: ValidationArguments) {
-    return value.every((item) => item?.name?.length >= PublicationValidity.tagMinLength);
+  validate(value: Tag[], args: ValidationArguments) {
+    return value.every((item) => item?.name?.length >= args[0]);
   }
 }
 
 @ValidatorConstraint({ async: true })
 export class TagMaxLengthConstraint implements ValidatorConstraintInterface {
-  validate(value: Tag[], _args: ValidationArguments) {
-    return value.every((item) => item?.name?.length <= PublicationValidity.tagMaxLength);
+  validate(value: Tag[], args: ValidationArguments) {
+    return value.every((item) => item?.name?.length <= args[0]);
   }
 }
 
 @ValidatorConstraint({ async: true })
 export class TagValidValueConstraint implements ValidatorConstraintInterface {
-  validate(value: Tag[], _args: ValidationArguments) {
-    return value.every((item) => item?.name?.match(/^[a-z\u0400-\u04FF]+$/i));
+  validate(value: Tag[], args: ValidationArguments) {
+    return value.every((item) => item?.name?.match(args[0]));
+    // return value.every((item) => item?.name?.match(/^[a-z\u0400-\u04FF]+$/i));
   }
 }
 
-export function TagMinLength(validationOptions?: ValidationOptions) {
+export function TagMinLength( args: ValidationArguments, validationOptions?: ValidationOptions) {
   return function (object: CreatePublicationDto, propertyName: string) {
     registerDecorator({
       target: object.constructor,
@@ -54,7 +54,7 @@ export function TagMaxLength(validationOptions?: ValidationOptions) {
   };
 }
 
-export function TagValidValue(validationOptions?: ValidationOptions) {
+export function IsTagValidValue(validationOptions?: ValidationOptions) {
   return function (object: CreatePublicationDto, propertyName: string) {
     registerDecorator({
       target: object.constructor,

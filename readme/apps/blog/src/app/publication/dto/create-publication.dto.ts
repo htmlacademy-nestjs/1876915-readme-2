@@ -4,7 +4,7 @@ import { IsEnum, IsBoolean, IsString, IsOptional, IsArray, ArrayMaxSize, IsObjec
 import { PublicationContent, PublicationType, PublicationTypeObject, Tag } from '@readme/shared-types';
 import { PublicationValidity as PV } from '../publication.constant';
 import { ValidityMessage as VM } from '@readme/core';
-import { TagMaxLength, TagMinLength, TagValidValue } from '../validation-decorators';
+import { TagMaxLength, TagMinLength, IsTagValidValue } from '../validation/publication-custom.decorators';
 
 
 export class CreatePublicationDto {
@@ -32,12 +32,12 @@ export class CreatePublicationDto {
     example: '[books, cooking]',
     required: true,
   })
-  @IsArray({ message: VM.isArrayMessage })
-  @ArrayMaxSize(PV.tagsMaxQuantity, { message: VM.isArrayMaxSizeMessage })
+  @IsArray({ message: VM.IsArrayMessage })
+  @ArrayMaxSize(PV.TagsMaxQuantity, { message: VM.IsArrayMaxSizeMessage })
   @Transform(({ value }) => Array.from(new Set<string>(value)).map((item) => ({ name: item.toLowerCase() })))
-  @TagMinLength({ message: VM.minValueMessage })
-  @TagMaxLength({ message: VM.maxValueMessage })
-  @TagValidValue({ message: VM.isValidValue })
+  @TagMinLength(PV.TagMinLength, { message: VM.MinValueMessage })
+  @TagMaxLength({ message: VM.MaxValueMessage })
+  @IsTagValidValue({ message: VM.IsValidValue })
   public tags: Tag[];
 
   @ApiProperty({

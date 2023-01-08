@@ -10,7 +10,7 @@ export class UpdateUserDto {
     required: false,
   })
   @IsOptional()
-  @IsEmail({}, { message: VM.isEmailMessage})
+  @IsEmail({}, { message: VM.IsEmailMessage})
   public email?: string;
 
   @ApiProperty({
@@ -19,8 +19,8 @@ export class UpdateUserDto {
     required: false,
   })
   @IsOptional()
-  @MinLength(UV.NameMinLength, {message: VM.minValueMessage})
-  @MaxLength(UV.NameMinLength, {message: VM.maxValueMessage})
+  @MinLength(UV.NameMinLength, {message: VM.MinValueMessage})
+  @MaxLength(UV.NameMinLength, {message: VM.MaxValueMessage})
   public firstName?: string;
 
   @ApiProperty({
@@ -29,7 +29,7 @@ export class UpdateUserDto {
     required: false,
   })
   @IsOptional()
-  @MinLength(UV.NameMinLength, {message: VM.minValueMessage})
-  @MaxLength(UV.NameMinLength, {message: VM.maxValueMessage})
+  @MinLength(UV.NameMinLength, {message: VM.MinValueMessage})
+  @MaxLength(UV.NameMinLength, {message: VM.MaxValueMessage})
   public lastName?: string;
 }

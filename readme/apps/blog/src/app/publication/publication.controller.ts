@@ -7,7 +7,8 @@ import { UpdatePublicationDto } from './dto/update-publication.dto';
 import { PublicationHandleMessages } from './publication.constant';
 import { PublicationRto } from './rto/publication.rto';
 import { DetailedPublicationRto } from './rto/detailed-publication.rto';
-import { PublicationContentPipe, publicationContentSchema } from './publication-content.pipe';
+import { PublicationValidationPipe } from './validation/publication-validation.pipe';
+import contentValidationSchema from './validation/content-validation.schema'
 
 @Controller('publications')
 export class PublicationController {
@@ -23,7 +24,7 @@ export class PublicationController {
     status: HttpStatus.CREATED,
     description: PublicationHandleMessages.CREATED,
   })
-  @UsePipes(new PublicationContentPipe(publicationContentSchema))
+  @UsePipes(new PublicationValidationPipe(contentValidationSchema))
   async create(@Body() dto: CreatePublicationDto) {
     const newPublication = await this.publicationService.createPublication({ ...dto });
     this.logger.log(`New publication created: ${newPublication}`);

@@ -1,6 +1,6 @@
 import { Body, Controller, Post, Get, Param, HttpCode, HttpStatus, Patch } from '@nestjs/common';
 import { ApiTags, ApiResponse } from '@nestjs/swagger';
-import { fillObject } from '@readme/core';
+import { fillObject, MongoIdValidationPipe } from '@readme/core';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserRdo } from './rdo/user.rdo';
@@ -55,7 +55,7 @@ export class AuthController {
     status: HttpStatus.NOT_FOUND,
     description: UserAuthMessages.NOT_FOUND,
   })
-  async showDetails(@Param('id') id: string) {
+  async showDetails(@Param('id', MongoIdValidationPipe) id: string) {
     const existUser = await this.authService.getUser(id);
     return fillObject(DetailedUserRdo, existUser);
   }

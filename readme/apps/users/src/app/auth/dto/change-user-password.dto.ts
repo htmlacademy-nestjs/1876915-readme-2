@@ -9,8 +9,8 @@ export class ChangeUserPasswordDto {
     example: '12345',
     required: true
   })
-  @MinLength(UV.PasswordMinLength, { message: VM.minValueMessage })
-  @MaxLength(UV.PasswordMaxLength, { message: VM.maxValueMessage })
+  @MinLength(UV.PasswordMinLength, { message: VM.MinValueMessage })
+  @MaxLength(UV.PasswordMaxLength, { message: VM.MaxValueMessage })
   public oldPassword: string;
 
   @ApiProperty({
@@ -18,7 +18,7 @@ export class ChangeUserPasswordDto {
     example: '12345',
     required: true
   })
-  @MinLength(UV.PasswordMinLength, { message: VM.minValueMessage })
-  @MaxLength(UV.PasswordMaxLength, { message: VM.maxValueMessage })
+  @MinLength(UV.PasswordMinLength, { message: VM.MinValueMessage })
+  @MaxLength(UV.PasswordMaxLength, { message: VM.MaxValueMessage })
   public newPassword: string;
 }

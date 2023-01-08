@@ -9,7 +9,7 @@ export class CreateUserDto {
     example: 'user@user.ru',
     required: true,
   })
-  @IsEmail({}, { message: VM.isEmailMessage })
+  @IsEmail({}, { message: VM.IsEmailMessage })
   public email: string;
 
   @ApiProperty({
@@ -17,8 +17,8 @@ export class CreateUserDto {
     example: 'John',
     required: true,
   })
-  @MinLength(UV.NameMinLength, { message: VM.minValueMessage })
-  @MaxLength(UV.NameMinLength, { message: VM.maxValueMessage })
+  @MinLength(UV.NameMinLength, { message: VM.MinValueMessage })
+  @MaxLength(UV.NameMinLength, { message: VM.MaxValueMessage })
   public firstName: string;
 
   @ApiProperty({
@@ -26,8 +26,8 @@ export class CreateUserDto {
     example: 'Doe',
     required: true,
   })
-  @MinLength(UV.NameMinLength, { message: VM.minValueMessage })
-  @MaxLength(UV.NameMinLength, { message: VM.maxValueMessage })
+  @MinLength(UV.NameMinLength, { message: VM.MinValueMessage })
+  @MaxLength(UV.NameMinLength, { message: VM.MaxValueMessage })
   public lastName: string;
 
   @ApiProperty({
@@ -35,7 +35,7 @@ export class CreateUserDto {
     example: '12345',
     required: true,
   })
-  @MinLength(UV.PasswordMinLength, { message: VM.minValueMessage })
-  @MaxLength(UV.PasswordMaxLength, { message: VM.maxValueMessage })
+  @MinLength(UV.PasswordMinLength, { message: VM.MinValueMessage })
+  @MaxLength(UV.PasswordMaxLength, { message: VM.MaxValueMessage })
   public password: string;
 }
