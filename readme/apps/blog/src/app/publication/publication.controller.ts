@@ -1,4 +1,4 @@
-import { Body, Post, Controller, Delete, Param, Get, Patch, HttpCode, HttpStatus, Logger } from '@nestjs/common';
+import { Body, Post, Controller, Delete, Param, Get, Patch, HttpCode, HttpStatus, Logger, UsePipes } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { fillObject } from '@readme/core';
 import { PublicationService } from './publication.service';
@@ -7,6 +7,7 @@ import { UpdatePublicationDto } from './dto/update-publication.dto';
 import { PublicationHandleMessages } from './publication.constant';
 import { PublicationRto } from './rto/publication.rto';
 import { DetailedPublicationRto } from './rto/detailed-publication.rto';
+import { PublicationContentPipe, publicationContentSchema } from './publication-content.pipe';
 
 @Controller('publications')
 export class PublicationController {
@@ -22,6 +23,7 @@ export class PublicationController {
     status: HttpStatus.CREATED,
     description: PublicationHandleMessages.CREATED,
   })
+  @UsePipes(new PublicationContentPipe(publicationContentSchema))
   async create(@Body() dto: CreatePublicationDto) {
     const newPublication = await this.publicationService.createPublication({ ...dto });
     this.logger.log(`New publication created: ${newPublication}`);

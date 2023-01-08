@@ -6,5 +6,14 @@ export const UserAuthMessages = {
   CREATED: 'The new user has been successfully created.',
   UPDATED: 'The user has been successfully updated.',
   LOGGED: 'User has been successfully logged.',
-  PASSWORD_CHANGED:"The user's password has been successfully updated",
+  PASSWORD_CHANGED: "The user's password has been successfully updated",
 } as const;
+
+export enum UserValidity {
+  NameMinLength = 3,
+  NameMaxLength = 50,
+  PasswordMinLength = 6,
+  PasswordMaxLength = 12,
+  AvatarMaxWeight = 500,  // in Kbytes
+}
+

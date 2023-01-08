@@ -17,7 +17,7 @@ type QuotePublication = {
 }
 
 type PhotoPublication = {
-  url: string;
+  upload: string;
 }
 
 type LinkPublication = {
@@ -33,6 +33,7 @@ export type PublicationContent = (
   | LinkPublication
   | Prisma.JsonValue
 );
+
 export const PublicationTypeObject = {
   Video: 'Video',
   Text: 'Text',

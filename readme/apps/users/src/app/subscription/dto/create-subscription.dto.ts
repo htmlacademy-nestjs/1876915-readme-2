@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsString } from 'class-validator';
 
 export class CreateSubscriptionDto {
   @ApiProperty({
@@ -6,6 +7,7 @@ export class CreateSubscriptionDto {
     example: '63b9ad36868257d7a7ccf1b2',
     required: true,
   })
+  @IsString()
   public bloggerId: string;
 
   @ApiProperty({
@@ -13,5 +15,6 @@ export class CreateSubscriptionDto {
     example: '63b9ad36868257d7a7ccf1b2',
     required: true,
   })
+  @IsString()
   public followerId: string;
 }

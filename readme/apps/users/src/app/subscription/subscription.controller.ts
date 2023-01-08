@@ -15,8 +15,7 @@ export class SubscriptionController {
 
   @Post('/:isFollow')
   async create(@Param('isFollow') isFollow: string, @Body() dto: CreateSubscriptionDto, @Res() res: Response) {
-    //todo:remove
-    if (isFollow === 'true' || isFollow === '1') {
+    if (isFollow) {
       const newSubscription = await this.subscriptionService.subscribe(dto);
       return res.status(HttpStatus.CREATED).json(fillObject(SubscriptionRdo, newSubscription));
     }
