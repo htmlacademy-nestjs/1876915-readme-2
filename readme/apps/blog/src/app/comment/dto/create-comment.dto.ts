@@ -1,8 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
-import { IsNumber, MaxLength, MinLength } from 'class-validator';
+import { IsNumber, MaxLength, MinLength, IsMongoId } from 'class-validator';
 import { ValidityMessage as VM } from '@readme/core';
-import { CommentValidity as CV} from '../comment.constant';
+import { CommentValidity as CV } from '../comment.constant';
 
 export class CreateCommentDto {
   @ApiProperty({
@@ -10,7 +9,7 @@ export class CreateCommentDto {
     example: '62af63e1dd748f35bcf66943',
     required: true,
   })
-  @IsString()
+  @IsMongoId()
   public userId: string;
 
   @ApiProperty({

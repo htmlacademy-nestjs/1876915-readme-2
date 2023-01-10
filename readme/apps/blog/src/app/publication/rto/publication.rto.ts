@@ -50,7 +50,7 @@ export class PublicationRto {
     example: '[books, cooking]',
     required: true,
   })
-  @Transform(({ value }) => value.map((item: Tag) => item.name))
+  @Transform(({ value }) => value?.map((item: Tag) => item.name))
   @Expose()
   public tags: Tag[];
 

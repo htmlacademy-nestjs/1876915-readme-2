@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
+import { IsMongoId } from 'class-validator';
+import { ValidityMessage as VM } from '@readme/core';
 
 export class CreateSubscriptionDto {
   @ApiProperty({
@@ -7,7 +8,7 @@ export class CreateSubscriptionDto {
     example: '63b9ad36868257d7a7ccf1b2',
     required: true,
   })
-  @IsString()
+  @IsMongoId({message:VM.MongoIdMessage})
   public bloggerId: string;
 
   @ApiProperty({
@@ -15,6 +16,6 @@ export class CreateSubscriptionDto {
     example: '63b9ad36868257d7a7ccf1b2',
     required: true,
   })
-  @IsString()
+  @IsMongoId({message:VM.MongoIdMessage})
   public followerId: string;
 }

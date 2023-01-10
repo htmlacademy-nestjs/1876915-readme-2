@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
-import { ConfigModule } from '@nestjs/config';
 import { ENV_FILE_PATH } from './app.constant';
-import { MongooseModule } from '@nestjs/mongoose/dist';
+import { jwtOptions } from '../config/jwt.config';
 import { getMongoDbConfig } from '../config/mongodb.config';
 import { SubscriptionModule } from './subscription/subscription.module';
 import databaseConfig from '../config/database.config';
@@ -26,7 +27,7 @@ import envSchema from './env.schema';
       cache: true,
       isGlobal: true,
       envFilePath: ENV_FILE_PATH,
-      load: [databaseConfig],
+      load: [databaseConfig, jwtOptions],
       validationSchema: envSchema,
     }),
     MongooseModule.forRootAsync(getMongoDbConfig()),

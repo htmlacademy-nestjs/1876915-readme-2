@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Get, Param, HttpCode, HttpStatus, Patch } from '@nestjs/common';
+import { Body, Controller, Post, Get, Param, HttpCode, HttpStatus, Patch, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiResponse } from '@nestjs/swagger';
 import { fillObject, MongoIdValidationPipe } from '@readme/core';
 import { AuthService } from './auth.service';
@@ -8,6 +8,7 @@ import { DetailedUserRdo } from './rdo/detailed-user.rdo';
 import { LoginUserDto } from './dto/login-user.dto';
 import { UserAuthMessages } from './auth.constant';
 import { LoggedUserRdo } from './rdo/logged-user.rdo';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -45,8 +46,7 @@ export class AuthController {
   })
   async login(@Body() dto: LoginUserDto) {
     const verifiedUser = await this.authService.verifyUser(dto);
-
-    return fillObject(UserRdo, verifiedUser);
+    return this.authService.loginUser(verifiedUser);
   }
 
   @Get(':id')
@@ -60,7 +60,8 @@ export class AuthController {
     return fillObject(DetailedUserRdo, existUser);
   }
 
-  @Patch()
+  @UseGuards(JwtAuthGuard)
+  @Patch('/')
   @ApiResponse({
     type: DetailedUserRdo,
     status: HttpStatus.OK,
@@ -75,6 +76,7 @@ export class AuthController {
     throw new Error('Method not implemented')
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch('pass')
   @HttpCode(HttpStatus.OK)
   @ApiResponse({

@@ -1,10 +1,10 @@
 import { ApiProperty, } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsEnum, IsBoolean, IsString, IsOptional, IsArray, ArrayMaxSize, IsObject } from 'class-validator';
+import { IsEnum, IsBoolean, IsOptional, IsArray, ArrayMaxSize, IsObject, IsMongoId } from 'class-validator';
 import { PublicationContent, PublicationType, PublicationTypeObject, Tag } from '@readme/shared-types';
 import { PublicationValidity as PV } from '../publication.constant';
-import { ValidityMessage as VM } from '@readme/core';
 import { TagMaxLength, TagMinLength, IsTagValidValue } from '../validation/publication-custom.decorators';
+import { ValidityMessage as VM } from '@readme/core';
 
 
 export class CreatePublicationDto {
@@ -32,12 +32,12 @@ export class CreatePublicationDto {
     example: '[books, cooking]',
     required: true,
   })
-  @IsArray({ message: VM.IsArrayMessage })
   @ArrayMaxSize(PV.TagsMaxQuantity, { message: VM.IsArrayMaxSizeMessage })
+  @IsArray({ message: VM.IsArrayMessage })
   @Transform(({ value }) => Array.from(new Set<string>(value)).map((item) => ({ name: item.toLowerCase() })))
   @TagMinLength(PV.TagMinLength, { message: VM.MinValueMessage })
-  @TagMaxLength({ message: VM.MaxValueMessage })
-  @IsTagValidValue({ message: VM.IsValidValue })
+  @TagMaxLength(PV.TagMaxLength, { message: VM.MaxValueMessage })
+  @IsTagValidValue(new RegExp('^[a-z\\u0400-\\u04FF]+$', 'i'), { message: VM.IsValidValue })
   public tags: Tag[];
 
   @ApiProperty({
@@ -54,6 +54,6 @@ export class CreatePublicationDto {
     example: '62af63e1dd748f35bcf66943',
     required: true,
   })
-  @IsString()
+  @IsMongoId()
   public userId: string;
 }

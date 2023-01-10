@@ -1,10 +1,11 @@
 import { ApiTags } from '@nestjs/swagger';
-import { Controller, Body, HttpStatus, Param, Post, Res } from '@nestjs/common';
+import { Controller, Body, HttpStatus, Param, Post, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
-import { fillObject } from '@readme/core';
+import { fillObject} from '@readme/core';
 import { CreateSubscriptionDto } from './dto/create-subscription.dto';
 import { SubscriptionRdo } from './rdo/subscription.rdo';
 import { SubscriptionService } from './subscription.service';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @ApiTags('subscriptions')
 @Controller('subscriptions')
@@ -13,6 +14,7 @@ export class SubscriptionController {
     private readonly subscriptionService: SubscriptionService,
   ) { }
 
+  @UseGuards(JwtAuthGuard)
   @Post('/:isFollow')
   async create(@Param('isFollow') isFollow: string, @Body() dto: CreateSubscriptionDto, @Res() res: Response) {
     if (isFollow) {

@@ -1,10 +1,11 @@
-import { Body, Post, Controller, Delete, Param, HttpCode, HttpStatus, Get, Patch } from '@nestjs/common';
+import { Body, Post, Controller, Delete, Param, Query, HttpCode, HttpStatus, Get, Patch } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { fillObject } from '@readme/core';
 import { CommentHandleMessages } from './comment.constant';
 import { CommentService } from './comment.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
+import { CommentQuery } from './query/comment.query';
 import { CommentRto } from './rto/comment.rto';
 
 @Controller('comments')
@@ -26,16 +27,14 @@ export class CommentController {
   }
 
   @Patch('/:id')
-  async update(@Param('id') id: string, @Body() dto: UpdateCommentDto) {
-    const commentId = parseInt(id, 10);
-    const updatedComment = await this.commentService.updateComment(commentId, dto)
+  async update(@Param('id') id: number, @Body() dto: UpdateCommentDto) {
+    const updatedComment = await this.commentService.updateComment(id, dto);
     return fillObject(CommentRto, updatedComment);
   }
 
   @Get('/:id')
-  async index(@Param('id') id: string) {
-    const publicationId = parseInt(id, 10);
-    const comments = await this.commentService.getComments(publicationId);
+  async index(@Param('id') id: number, @Query() query: CommentQuery) {
+    const comments = await this.commentService.getComments(id, query);
     return fillObject(CommentRto, comments);
   }
 

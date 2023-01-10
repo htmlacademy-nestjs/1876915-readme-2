@@ -10,57 +10,56 @@ import { CreatePublicationDto } from '../dto/create-publication.dto';
 
 @ValidatorConstraint({ async: true })
 export class TagMinLengthConstraint implements ValidatorConstraintInterface {
-  validate(value: Tag[], args: ValidationArguments) {
-    return value.every((item) => item?.name?.length >= args[0]);
+  validate(value: Tag[], { constraints }: ValidationArguments) {
+    return value.every((item) => item?.name?.length >= constraints[0]);
   }
 }
 
 @ValidatorConstraint({ async: true })
 export class TagMaxLengthConstraint implements ValidatorConstraintInterface {
-  validate(value: Tag[], args: ValidationArguments) {
-    return value.every((item) => item?.name?.length <= args[0]);
+  validate(value: Tag[], { constraints }: ValidationArguments) {
+    return value.every((item) => item?.name?.length <= constraints[0]);
   }
 }
 
 @ValidatorConstraint({ async: true })
 export class TagValidValueConstraint implements ValidatorConstraintInterface {
-  validate(value: Tag[], args: ValidationArguments) {
-    return value.every((item) => item?.name?.match(args[0]));
-    // return value.every((item) => item?.name?.match(/^[a-z\u0400-\u04FF]+$/i));
+  validate(value: Tag[], { constraints }: ValidationArguments) {
+    return value.every((item) => item?.name?.match(constraints[0]));
   }
 }
 
-export function TagMinLength( args: ValidationArguments, validationOptions?: ValidationOptions) {
+export function TagMinLength(min: number, validationOptions?: ValidationOptions) {
   return function (object: CreatePublicationDto, propertyName: string) {
     registerDecorator({
       target: object.constructor,
       propertyName: propertyName,
       options: validationOptions,
-      constraints: [],
+      constraints: [min],
       validator: TagMinLengthConstraint,
     });
   };
 }
 
-export function TagMaxLength(validationOptions?: ValidationOptions) {
+export function TagMaxLength(max: number, validationOptions?: ValidationOptions) {
   return function (object: CreatePublicationDto, propertyName: string) {
     registerDecorator({
       target: object.constructor,
       propertyName: propertyName,
       options: validationOptions,
-      constraints: [],
+      constraints: [max],
       validator: TagMaxLengthConstraint,
     });
   };
 }
 
-export function IsTagValidValue(validationOptions?: ValidationOptions) {
+export function IsTagValidValue(regexp: RegExp, validationOptions?: ValidationOptions) {
   return function (object: CreatePublicationDto, propertyName: string) {
     registerDecorator({
       target: object.constructor,
       propertyName: propertyName,
       options: validationOptions,
-      constraints: [],
+      constraints: [regexp],
       validator: TagValidValueConstraint,
     });
   };

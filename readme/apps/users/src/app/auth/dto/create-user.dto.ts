@@ -18,7 +18,7 @@ export class CreateUserDto {
     required: true,
   })
   @MinLength(UV.NameMinLength, { message: VM.MinValueMessage })
-  @MaxLength(UV.NameMinLength, { message: VM.MaxValueMessage })
+  @MaxLength(UV.NameMaxLength, { message: VM.MaxValueMessage })
   public firstName: string;
 
   @ApiProperty({
@@ -27,7 +27,7 @@ export class CreateUserDto {
     required: true,
   })
   @MinLength(UV.NameMinLength, { message: VM.MinValueMessage })
-  @MaxLength(UV.NameMinLength, { message: VM.MaxValueMessage })
+  @MaxLength(UV.NameMaxLength, { message: VM.MaxValueMessage })
   public lastName: string;
 
   @ApiProperty({

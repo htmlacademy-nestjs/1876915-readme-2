@@ -1,5 +1,5 @@
 export const DEFAULT_PUBLICATION_QUERY_LIMIT = 25;
-export const DEFAULT_SORT_DIRECTION = 'desc';
+export const DEFAULT_PUBLICATION_SORT_DIRECTION = 'desc';
 
 export const PublicationHandleMessages = {
   CREATED: 'The new publication has been successfully created.',
@@ -28,7 +28,12 @@ export enum PublicationValidity {
 
 export enum PublicationSort {
   Date = 'date',
-  Likes = 'likes',
-  Comments = 'comments',
+  Likes = 'like',
+  Comments = 'comment',
 }
 
+export const PublicationSortField = {
+  [PublicationSort.Date]: 'createdAt',
+  [PublicationSort.Likes]: 'likesCount',
+  [PublicationSort.Comments]: 'commentsCount',
+};
