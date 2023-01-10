@@ -4,28 +4,46 @@ Host: localhost:3333
 Content-Type: application/json
 
 {
-  "email": "alisa@selezneva.ru",
+  "email": "filidor@zeleniy.ru",
   "dateBirth": "1965-11-17",
-  "firstName": "Алиса",
-  "lastName": "Селезнева",
-  "password": "12345"
+  "firstName": "Филидор",
+  "lastName": "Зелёный",
+  "password": "123456"
 }
+
+# {
+#   "email": "alisa@selezneva.ru",
+#   "dateBirth": "1965-11-17",
+#   "firstName": "Алиса",
+#   "lastName": "Селезнева",
+#   "password": "123456"
+# }
+
+# {
+#   "email": "pasha@geraskin.ru",
+#   "dateBirth": "1965-11-17",
+#   "firstName": "Пашка",
+#   "lastName": "Гераскин",
+#   "password": "12345"
+# }
 ###
 
 # Редактировать пользователя (WIP)
 PATCH  /users/auth/ HTTP/1.1
 Host: localhost:3333
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2JkYmM5ODhhZTliZGNmY2U5NGUzNTciLCJlbWFpbCI6ImZpbGlkb3JAemVsZW5peS5ydSIsImZpcnN0TmFtZSI6ItCk0LjQu9C40LTQvtGAIiwibGFzdE5hbWUiOiLQl9C10LvRkdC90YvQuSIsImlhdCI6MTY3MzM4MTUxNSwiZXhwIjoxNjczMzgxNjk1fQ.7X6dD_XA5TLeJWhEYrYg3ug1eLngt0ytBJkzqblmurI
 Content-Type: application/json
 
 {
-  "firstName": "Alisa",
-  "lastName": "Selezneva"
+  "firstName": "Filidor",
+  "lastName": "Zeleniy"
 }
 ###
 
 # Изменить пароль пользоватьеля (WIP)
-PATCH  /users/auth/ HTTP/1.1
+PATCH  /users/auth/pass HTTP/1.1
 Host: localhost:3333
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InZhbnlhM0BydXNzaWFuLnJ1IiwidXNlcklkIjoiNjJiOWY3YjI3MGY0OTZjNjczODIyNzJjIiwibmFtZSI6IlZhbnlhIFJ1c3NpYW4iLCJhdmF0YXIiOiJSTjhkOTh1NVBDbU1CZGlTREdfcGIuanBlZyIsImlhdCI6MTY1NjgzNTYxMSwiZXhwIjoxNjU2ODc4ODExfQ.YHAwjl1xwaPXpAI2dTGAw2pX3sKnEUsWyVPdUlJsTAE
 Content-Type: application/json
 
 {
@@ -45,7 +63,7 @@ Host: localhost:3333
 Content-Type: application/json
 
 {
-  "email": "alisa@selezneva.ru",
-  "password": "12345"
+  "email": "filidor@zeleniy.ru",
+  "password": "123456"
 }
 ###

@@ -1,6 +1,6 @@
-import { Body, Controller, Post, Get, Param, HttpCode, HttpStatus, Patch } from '@nestjs/common';
+import { Body, Controller, Post, Get, Param, HttpCode, HttpStatus, Patch, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiResponse } from '@nestjs/swagger';
-import { fillObject } from '@readme/core';
+import { fillObject, MongoIdValidationPipe } from '@readme/core';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserRdo } from './rdo/user.rdo';
@@ -8,6 +8,7 @@ import { DetailedUserRdo } from './rdo/detailed-user.rdo';
 import { LoginUserDto } from './dto/login-user.dto';
 import { UserAuthMessages } from './auth.constant';
 import { LoggedUserRdo } from './rdo/logged-user.rdo';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -34,7 +35,6 @@ export class AuthController {
   }
 
   @Post('login')
-  @HttpCode(HttpStatus.OK)
   @ApiResponse({
     type: LoggedUserRdo,
     status: HttpStatus.OK,
@@ -46,24 +46,22 @@ export class AuthController {
   })
   async login(@Body() dto: LoginUserDto) {
     const verifiedUser = await this.authService.verifyUser(dto);
-
-    return fillObject(UserRdo, verifiedUser);
+    return this.authService.loginUser(verifiedUser);
   }
 
   @Get(':id')
-  @HttpCode(HttpStatus.OK)
   @ApiResponse({
     type: DetailedUserRdo,
     status: HttpStatus.NOT_FOUND,
     description: UserAuthMessages.NOT_FOUND,
   })
-  async showDetails(@Param('id') id: string) {
+  async showDetails(@Param('id', MongoIdValidationPipe) id: string) {
     const existUser = await this.authService.getUser(id);
     return fillObject(DetailedUserRdo, existUser);
   }
 
-  @Patch()
-  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
+  @Patch('/')
   @ApiResponse({
     type: DetailedUserRdo,
     status: HttpStatus.OK,
@@ -78,6 +76,7 @@ export class AuthController {
     throw new Error('Method not implemented')
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch('pass')
   @HttpCode(HttpStatus.OK)
   @ApiResponse({

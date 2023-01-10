@@ -1,4 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsEmail, IsOptional, MaxLength, MinLength } from 'class-validator';
+import { ValidityMessage as VM } from '@readme/core';
+import { UserValidity as UV } from '../auth.constant';
 
 export class UpdateUserDto {
   @ApiProperty({
@@ -6,6 +9,8 @@ export class UpdateUserDto {
     example: 'user@user.ru',
     required: false,
   })
+  @IsOptional()
+  @IsEmail({}, { message: VM.IsEmailMessage})
   public email?: string;
 
   @ApiProperty({
@@ -13,6 +18,9 @@ export class UpdateUserDto {
     example: 'John',
     required: false,
   })
+  @IsOptional()
+  @MinLength(UV.NameMinLength, {message: VM.MinValueMessage})
+  @MaxLength(UV.NameMinLength, {message: VM.MaxValueMessage})
   public firstName?: string;
 
   @ApiProperty({
@@ -20,5 +28,8 @@ export class UpdateUserDto {
     example: 'Doe',
     required: false,
   })
+  @IsOptional()
+  @MinLength(UV.NameMinLength, {message: VM.MinValueMessage})
+  @MaxLength(UV.NameMinLength, {message: VM.MaxValueMessage})
   public lastName?: string;
 }

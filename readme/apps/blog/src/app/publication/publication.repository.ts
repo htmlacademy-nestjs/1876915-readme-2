@@ -3,6 +3,8 @@ import { PrismaService } from '../prisma/prisma.service';
 import { CRUDRepositoryInterface } from '@readme/core';
 import { Publication } from '@readme/shared-types';
 import { PublicationEntity } from './publication.entity';
+import { PublicationQuery } from './query/publication.query';
+import { PublicationSortField } from './publication.constant';
 
 @Injectable()
 export class PublicationRepository implements CRUDRepositoryInterface<PublicationEntity, number, Publication> {
@@ -24,9 +26,6 @@ export class PublicationRepository implements CRUDRepositoryInterface<Publicatio
         comments: {
           connect: []
         }
-      },
-      include: {
-        tags: true,
       }
     });
 
@@ -34,6 +33,9 @@ export class PublicationRepository implements CRUDRepositoryInterface<Publicatio
       where: { id: newPublication.id },
       data: {
         originalId: newPublication.id
+      },
+      include: {
+        tags: true,
       }
     })
   }
@@ -57,26 +59,69 @@ export class PublicationRepository implements CRUDRepositoryInterface<Publicatio
     });
   }
 
-  public async find(): Promise<Publication[]> {
+  public async find({ limit, page, sortDirection, sortType, tags, userId }: PublicationQuery): Promise<Publication[]> {
+    const sortField = { [PublicationSortField[sortType]]: sortDirection };
+
     return this.prisma.publication.findMany({
+      take: limit,
+      where: {
+        userId,
+        tags: {
+          some: {
+            name: {
+              in: tags
+            }
+          }
+        }
+      },
       include: {
         tags: true,
-      }
+      },
+      orderBy: [
+        {
+          ...sortField
+        }
+      ],
+      skip: page > 0 ? limit * (page - 1) : undefined,
     });
   }
 
-  public update(id: number, item: Publication): Promise<Publication> {
+  public async update(id: number, item: Partial<Publication>): Promise<Publication> {
+    let excludingTags = [];
+    let includingTags = [];
+
+    if (item.tags) {
+      excludingTags = await this.prisma.tag.findMany({
+        where: {
+          NOT: [
+            ...(item.tags || []),
+          ],
+          publication: {
+            some: {
+              id
+            }
+          }
+        }
+      });
+
+      includingTags = item.tags.map(({ name }) => ({
+        create: { name },
+        where: { name }
+      }))
+    }
+
     return this.prisma.publication.update({
       where: { id },
       data: {
         ...item,
-        id,
-        tags: {
+
+        tags:
+        {
+          disconnect: [
+            ...excludingTags
+          ],
           connectOrCreate: [
-            ...item.tags.map(({ name }) => ({
-              create: { name },
-              where: { name }
-            }))
+            ...includingTags
           ],
         },
       },

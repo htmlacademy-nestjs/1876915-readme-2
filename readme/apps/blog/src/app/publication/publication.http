@@ -1,75 +1,89 @@
 # Создать публикацию
 POST /blog/publications/ HTTP/1.1
 Host: localhost:3334
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InZhbnlhM0BydXNzaWFuLnJ1IiwidXNlcklkIjoiNjJiOWY3YjI3MGY0OTZjNjczODIyNzJjIiwibmFtZSI6IlZhbnlhIFJ1c3NpYW4iLCJhdmF0YXIiOiJSTjhkOTh1NVBDbU1CZGlTREdfcGIuanBlZyIsImlhdCI6MTY1NjgzNTYxMSwiZXhwIjoxNjU2ODc4ODExfQ.YHAwjl1xwaPXpAI2dTGAw2pX3sKnEUsWyVPdUlJsTAE
 Content-Type: application/json
+
+# {
+#   "type": "Video",
+#   "tags": [{ "name": "#awesomevideo"}],
+#   "userId": "63b550eae01809667f8f668d",
+#   "content": {
+#     "title": "Гостья из будущего",
+#     "videoLink": "www.url.com"
+#   }
+# }
 
 {
   "type": "Video",
-  "tags": [{ "name": "#awesomevideo"}],
-  "userId": "63a9bb63c0068095cdd7706a",
+  "tags": ["myvideo", "greatest", "myvideo#1"],
+  "userId": "63b9e82c804280c503523c3d",
   "content": {
-    "title": "Гостья из будущего",
-    "videoLink": "www.url.com"
+    "title": "Приключения электроника",
+    "videoLink": "www.youtube.com/electronic"
   }
 }
 ###
 
 # Редактировать публикацию
-PATCH /blog/publications/4 HTTP/1.1
+PATCH /blog/publications/10 HTTP/1.1
 Host: localhost:3334
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InZhbnlhM0BydXNzaWFuLnJ1IiwidXNlcklkIjoiNjJiOWY3YjI3MGY0OTZjNjczODIyNzJjIiwibmFtZSI6IlZhbnlhIFJ1c3NpYW4iLCJhdmF0YXIiOiJSTjhkOTh1NVBDbU1CZGlTREdfcGIuanBlZyIsImlhdCI6MTY1NjgzNTYxMSwiZXhwIjoxNjU2ODc4ODExfQ.YHAwjl1xwaPXpAI2dTGAw2pX3sKnEUsWyVPdUlJsTAE
 Content-Type: application/json
 
 {
   "type": "Video",
-  "tags": [{ "name": "#awesomevideo"}, { "name": "#приключенияалисы"}],
+  "tags": ["awesome", "прикалисы"],
   "content": {
     "title": "Гостья из будущего (Приключения Алисы)",
-    "videoLink": "www.url.com"
+    "videoLink": "www.youtube.com/video"
   }
 }
 ###
 
-# Получить список публикаций (лимит, пагинация, сортировка)
-GET /blog/publications/ HTTP/1.1
+# Удалить публикацию
+DELETE /blog/publications/19 HTTP/1.1
+Host: localhost:3334
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InZhbnlhM0BydXNzaWFuLnJ1IiwidXNlcklkIjoiNjJiOWY3YjI3MGY0OTZjNjczODIyNzJjIiwibmFtZSI6IlZhbnlhIFJ1c3NpYW4iLCJhdmF0YXIiOiJSTjhkOTh1NVBDbU1CZGlTREdfcGIuanBlZyIsImlhdCI6MTY1NjgzNTYxMSwiZXhwIjoxNjU2ODc4ODExfQ.YHAwjl1xwaPXpAI2dTGAw2pX3sKnEUsWyVPdUlJsTAE
+###
+
+# Получить публикацию по ID
+GET /blog/publications/19 HTTP/1.1
 Host: localhost:3334
 ###
 
-# Получить список публикаций определнного пользователя (лимит, пагинация, сортировка)
-GET /blog/publications/user/63a9bb63c0068095cdd7706a HTTP/1.1
+# Получить список публикаций (лимит, пагинация, сортировка, тэги, определенный пользователь)
+# ?limit=50&page=0&sortType=date&sortDirection=desc&tags=sometag1,sometag2&user=63a9bb63c0068095cdd7706a
+GET /blog/publications?limit=10&page=1&sortType=comment&sortDirection=desc&tags=myvideo#1&$userId=63b9e82c804280c503523c3d HTTP/1.1
 Host: localhost:3334
 ###
 
 # Получить список черновиков публикаций пользователя (лимит, пагинация, сортировка)
-GET /blog/publications/user/drafts/63a9bb63c0068095cdd7706a HTTP/1.1
+GET /blog/publications/user/drafts/ HTTP/1.1
 Host: localhost:3334
-###
-
-# Получить список публикаций по тэгу (лимит, пагинация, сортировка)
-GET /blog/publications/tag/text HTTP/1.1
-Host: localhost:3334
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InZhbnlhM0BydXNzaWFuLnJ1IiwidXNlcklkIjoiNjJiOWY3YjI3MGY0OTZjNjczODIyNzJjIiwibmFtZSI6IlZhbnlhIFJ1c3NpYW4iLCJhdmF0YXIiOiJSTjhkOTh1NVBDbU1CZGlTREdfcGIuanBlZyIsImlhdCI6MTY1NjgzNTYxMSwiZXhwIjoxNjU2ODc4ODExfQ.YHAwjl1xwaPXpAI2dTGAw2pX3sKnEUsWyVPdUlJsTAE
 ###
 
 # Получить ленту публикаций (лимит, пагинация, сортировка)
 GET /blog/publications/feed HTTP/1.1
 Host: localhost:3334
-###
-
-# Удалить публикацию
-DELETE /blog/publications/8 HTTP/1.1
-Host: localhost:3334
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InZhbnlhM0BydXNzaWFuLnJ1IiwidXNlcklkIjoiNjJiOWY3YjI3MGY0OTZjNjczODIyNzJjIiwibmFtZSI6IlZhbnlhIFJ1c3NpYW4iLCJhdmF0YXIiOiJSTjhkOTh1NVBDbU1CZGlTREdfcGIuanBlZyIsImlhdCI6MTY1NjgzNTYxMSwiZXhwIjoxNjU2ODc4ODExfQ.YHAwjl1xwaPXpAI2dTGAw2pX3sKnEUsWyVPdUlJsTAE
 ###
 
 # Поставить лайк публикации
-PATCH /blog/publications/like/1 HTTP/1.1
+POST /blog/publications/like/1 HTTP/1.1
 Host: localhost:3334
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InZhbnlhM0BydXNzaWFuLnJ1IiwidXNlcklkIjoiNjJiOWY3YjI3MGY0OTZjNjczODIyNzJjIiwibmFtZSI6IlZhbnlhIFJ1c3NpYW4iLCJhdmF0YXIiOiJSTjhkOTh1NVBDbU1CZGlTREdfcGIuanBlZyIsImlhdCI6MTY1NjgzNTYxMSwiZXhwIjoxNjU2ODc4ODExfQ.YHAwjl1xwaPXpAI2dTGAw2pX3sKnEUsWyVPdUlJsTAE
 ###
 
 # Удалить лайк публикации
-PATCH /blog/publications/like/0 HTTP/1.1
+POST /blog/publications/like/0 HTTP/1.1
 Host: localhost:3334
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InZhbnlhM0BydXNzaWFuLnJ1IiwidXNlcklkIjoiNjJiOWY3YjI3MGY0OTZjNjczODIyNzJjIiwibmFtZSI6IlZhbnlhIFJ1c3NpYW4iLCJhdmF0YXIiOiJSTjhkOTh1NVBDbU1CZGlTREdfcGIuanBlZyIsImlhdCI6MTY1NjgzNTYxMSwiZXhwIjoxNjU2ODc4ODExfQ.YHAwjl1xwaPXpAI2dTGAw2pX3sKnEUsWyVPdUlJsTAE
 ###
 
 # Сделать репост (копировать) публикации
-POST /blog/publications/repost/1 HTTP/1.1
+POST /blog/publications/repost/10 HTTP/1.1
 Host: localhost:3334
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InZhbnlhM0BydXNzaWFuLnJ1IiwidXNlcklkIjoiNjJiOWY3YjI3MGY0OTZjNjczODIyNzJjIiwibmFtZSI6IlZhbnlhIFJ1c3NpYW4iLCJhdmF0YXIiOiJSTjhkOTh1NVBDbU1CZGlTREdfcGIuanBlZyIsImlhdCI6MTY1NjgzNTYxMSwiZXhwIjoxNjU2ODc4ODExfQ.YHAwjl1xwaPXpAI2dTGAw2pX3sKnEUsWyVPdUlJsTAE
 ###

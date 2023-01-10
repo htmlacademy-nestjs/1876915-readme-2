@@ -1,4 +1,4 @@
-import { Body, Post, Controller, Delete, Param, Get, Patch, HttpCode, HttpStatus, Logger } from '@nestjs/common';
+import { Body, Post, Controller, Delete, Param, Query, Get, Patch, HttpCode, HttpStatus, Logger, UsePipes } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { fillObject } from '@readme/core';
 import { PublicationService } from './publication.service';
@@ -7,6 +7,9 @@ import { UpdatePublicationDto } from './dto/update-publication.dto';
 import { PublicationHandleMessages } from './publication.constant';
 import { PublicationRto } from './rto/publication.rto';
 import { DetailedPublicationRto } from './rto/detailed-publication.rto';
+import { PublicationValidationPipe } from './validation/publication-validation.pipe';
+import { PublicationQuery } from './query/publication.query';
+import contentValidationSchema from './validation/content-validation.schema'
 
 @Controller('publications')
 export class PublicationController {
@@ -22,6 +25,7 @@ export class PublicationController {
     status: HttpStatus.CREATED,
     description: PublicationHandleMessages.CREATED,
   })
+  @UsePipes(new PublicationValidationPipe(contentValidationSchema))
   async create(@Body() dto: CreatePublicationDto) {
     const newPublication = await this.publicationService.createPublication({ ...dto });
     this.logger.log(`New publication created: ${newPublication}`);
@@ -29,22 +33,20 @@ export class PublicationController {
   }
 
   @Patch('/:id')
-  async update(@Param('id') id: string, @Body() dto: UpdatePublicationDto) {
-    const publicationId = parseInt(id, 10);
-    const updatedComment = await this.publicationService.updatePublication(publicationId, dto);
+  async update(@Param('id') id: number, @Body() dto: UpdatePublicationDto) {
+    const updatedComment = await this.publicationService.updatePublication(id, dto);
     return fillObject(PublicationRto, updatedComment);
   }
 
   @Get('/:id')
-  async show(@Param('id') id: string) {
-    const commentId = parseInt(id, 10);
-    const existComment = await this.publicationService.getPublication(commentId);
+  async show(@Param('id') id: number) {
+    const existComment = await this.publicationService.getPublication(id);
     return fillObject(DetailedPublicationRto, existComment);
   }
 
   @Get('/')
-  async index() {
-    const publications = await this.publicationService.getPublications();
+  async index(@Query() query: PublicationQuery) {
+    const publications = await this.publicationService.getPublications(query);
     return fillObject(PublicationRto, publications);
   }
 
@@ -54,9 +56,7 @@ export class PublicationController {
     status: HttpStatus.NO_CONTENT,
     description: PublicationHandleMessages.DELETED,
   })
-  async destroy(@Param('id') id: string) {
-    const publicationId = parseInt(id, 10);
-    this.publicationService.deletePublication(publicationId);
-
+  async destroy(@Param('id') id: number) {
+    this.publicationService.deletePublication(id);
   }
 }

@@ -1,5 +1,11 @@
 import { ApiProperty, } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
+import { IsEnum, IsBoolean, IsOptional, IsArray, ArrayMaxSize, IsObject, IsMongoId } from 'class-validator';
 import { PublicationContent, PublicationType, PublicationTypeObject, Tag } from '@readme/shared-types';
+import { PublicationValidity as PV } from '../publication.constant';
+import { TagMaxLength, TagMinLength, IsTagValidValue } from '../validation/publication-custom.decorators';
+import { ValidityMessage as VM } from '@readme/core';
+
 
 export class CreatePublicationDto {
   @ApiProperty({
@@ -9,6 +15,7 @@ export class CreatePublicationDto {
     type: () => String,
     enum: PublicationTypeObject,
   })
+  @IsEnum(PublicationTypeObject, { message: `Allowed genre types: ${Object.values(PublicationTypeObject)}` })
   public type: PublicationType;
 
   @ApiProperty({
@@ -16,6 +23,8 @@ export class CreatePublicationDto {
     example: 'true',
     required: true,
   })
+  @IsOptional()
+  @IsBoolean()
   public isPublished?: boolean;
 
   @ApiProperty({
@@ -23,6 +32,12 @@ export class CreatePublicationDto {
     example: '[books, cooking]',
     required: true,
   })
+  @ArrayMaxSize(PV.TagsMaxQuantity, { message: VM.IsArrayMaxSizeMessage })
+  @IsArray({ message: VM.IsArrayMessage })
+  @Transform(({ value }) => Array.from(new Set<string>(value)).map((item) => ({ name: item.toLowerCase() })))
+  @TagMinLength(PV.TagMinLength, { message: VM.MinValueMessage })
+  @TagMaxLength(PV.TagMaxLength, { message: VM.MaxValueMessage })
+  @IsTagValidValue(new RegExp('^[a-z\\u0400-\\u04FF]+$', 'i'), { message: VM.IsValidValue })
   public tags: Tag[];
 
   @ApiProperty({
@@ -31,6 +46,7 @@ export class CreatePublicationDto {
     required: true,
     //todo: как добавить пример типов объектов (т.е. контента)?
   })
+  @IsObject()
   public content: PublicationContent;
 
   @ApiProperty({
@@ -38,5 +54,6 @@ export class CreatePublicationDto {
     example: '62af63e1dd748f35bcf66943',
     required: true,
   })
+  @IsMongoId()
   public userId: string;
 }

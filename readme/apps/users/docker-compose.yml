@@ -13,6 +13,11 @@ services:
       - 27018:27018
     volumes:
       - ./db:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27018/users --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
 
   mongodb-express:
     image: mongo-express

@@ -1,13 +1,13 @@
-import { Expose } from 'class-transformer';
+import { Expose, Transform } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CommentRto {
   @ApiProperty({
     description: 'Comment unique identifier',
-    example: '1',
+    example: 1,
   })
   @Expose()
-  public id: string;
+  public id: number;
 
   @ApiProperty({
     description: 'The content of the comment to the publication.',
@@ -17,18 +17,20 @@ export class CommentRto {
   public content: string;
 
   @ApiProperty({
-    description: 'Date the comment was created',
-    example: `${new Date()}`,
+    description: 'Date the comment was created in ISO8601 format',
+    example: `${new Date().toISOString()}`,
   })
+  @Transform(({ obj }) => new Date(obj.createdAt).toISOString())
   @Expose()
-  public createdAt: Date;
+  public createdAt: string;
 
   @ApiProperty({
-    description: 'Date the comment was updated',
-    example: `${new Date()}`,
+    description: 'Date the comment was updated in ISO8601 format',
+    example: `${new Date().toISOString()}`,
   })
+  @Transform(({ obj }) => new Date(obj.updatedAt).toISOString())
   @Expose()
-  public updatedAt: Date;
+  public updatedAt: string;
 
   @ApiProperty({
     description: 'User unique identifier. Owner of the comment',
@@ -39,7 +41,7 @@ export class CommentRto {
 
   @ApiProperty({
     description: 'Publication unique identifier',
-    example: '1',
+    example: 1,
   })
   @Expose()
   publicationId: number;
